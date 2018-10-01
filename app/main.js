@@ -83,7 +83,7 @@ const uniforms = {
 
 
   // Glowing Pink; slighty adapted
-  backgroundColor: {type: "3fv", value: [1.0, 1.0, 1.0], color: true},
+  backgroundColor: {type: "3fv", value: new THREE.Color('#1f294b'), color: true},
 
   outerColor0: {type: "3fv", value: [0.0, 0.0, 0.0], color: true},
   outerColor1: {type: "3fv", value: [0.0, 0.0, 0.0], color: true},
@@ -381,7 +381,7 @@ function onResize() {
 function loop(time) { // eslint-disable-line no-unused-vars
 
   const delta = Math.min(1.0 / 20.0, clock.getDelta());
-  hue += ((delta*5)%360);
+  saturation += ((delta*2)%100);
   objectColor = new THREE.Color( "hsl("+hue+", "+saturation+"%, "+lightness+"%)" );
 
   uniforms.outerColor0.value = objectColor;
@@ -485,7 +485,7 @@ document.addEventListener('keydown', e => {
     //   scene.add(planetGroup);
     // }
 
-    uniforms.backgroundColor.value = [1.0, 1.0, 1.0];
+    uniforms.backgroundColor.value = new THREE.Color('#1f294b');
 
     uniforms.outerColor0.value = [0.0, 0.0, 0.0];
     uniforms.outerColor1.value = [0.0, 0.0, 0.0];
@@ -700,7 +700,7 @@ document.addEventListener('keydown', e => {
     camera.position.z = 40;
   }
   else if (e.key == '6') {
-    uniforms.backgroundColor.value = new THREE.Color('#000000');
+    uniforms.backgroundColor.value = new THREE.Color('#131525');
 
     uniforms.outerColor0.value = [1.0, 1.0, 1.0];
     uniforms.outerColor1.value = [1.0, 1.0, 1.0];
