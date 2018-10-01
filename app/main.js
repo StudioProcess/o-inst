@@ -444,58 +444,82 @@ document.addEventListener('keydown', e => {
 
   }
   else if (e.key == '2') {
-    // console.log( Math.floor((Math.random() * 100) + 1) );
-    // let random = Math.random() * (+0.001 - +0.0001) + +0.0001;
-     // var random = Math.random() * (+max - +min) + +min;
-    // console.log ( random );
-    // camera.position.z = Math.floor((Math.random() * 20) + 5);
+    uniforms.backgroundColor.value = [1.0, 1.0, 1.0];
+
     uniforms.outerColor0.value = [0.0, 0.0, 0.0];
     uniforms.outerColor1.value = [0.0, 0.0, 0.0];
+
     uniforms.innerColor0.value = [1.0, 1.0, 1.0];
     uniforms.innerColor1.value = [1.0, 1.0, 1.0];
 
     uniforms.radius.value = 7.9;
     uniforms.displacementDistance.value = 0.77;
+
     uniforms.innerRadius.value = -2.0;
     uniforms.innerDisplacementDistance.value = 0.34;
+
     uniforms.noiseSpeed.value = 0.01;
     uniforms.noiseScale.value = 19.26;
     uniforms.noiseMinValue.value = -0.605;
+
     uniforms.lineStepSize.value = 0.01;
     uniforms.lineWeight.value = 0.003;
     uniforms.lineSmoothing.value = 6.0;
+
     uniforms.facingCull.value = -0.44;
     uniforms.facingCullWidth.value = 0.498;
+
     uniforms.outerOpacity.value = 1.0;
     uniforms.innerOpacity.value = 0.0;
+
+    uniforms.rotationAxis.value = [0.4, 1.0, 0.0];
+    uniforms.rotationSpeed.value = -0.5;
+
+    uniforms.minDistance.value = -50.0;
+    uniforms.maxDistance.value = 200.0;
+
+    uniforms.saturationValue.value = 0.25;
+    uniforms.brightnessValue.value = 0.03;
 
     camera.position.z = 40;
   }
   else if (e.key == '3') {
-    // console.log( Math.floor((Math.random() * 100) + 1) );
-    // let random = Math.random() * (+0.001 - +0.0001) + +0.0001;
-     // var random = Math.random() * (+max - +min) + +min;
-    // console.log ( random );
-    // camera.position.z = Math.floor((Math.random() * 20) + 5);
+    uniforms.backgroundColor.value = [1.0, 1.0, 1.0];
+
     uniforms.outerColor0.value = [0.0, 0.0, 0.0];
     uniforms.outerColor1.value = [0.0, 0.0, 0.0];
+
     uniforms.innerColor0.value = [1.0, 1.0, 1.0];
     uniforms.innerColor1.value = [1.0, 1.0, 1.0];
 
     uniforms.radius.value = 20.0;
     uniforms.displacementDistance.value = 1.12;
+
     uniforms.innerRadius.value = 20.0;
     uniforms.innerDisplacementDistance.value = 3.76;
+
     uniforms.noiseSpeed.value = 3.0;
     uniforms.noiseScale.value = 1.85;
     uniforms.noiseMinValue.value = -1.0;
+
     uniforms.lineStepSize.value = 0.01;
     uniforms.lineWeight.value = 0.001;
     uniforms.lineSmoothing.value = 3.0;
+
     uniforms.facingCull.value = -1.0;
     uniforms.facingCullWidth.value = 0.0;
+
     uniforms.outerOpacity.value = 1.0;
     uniforms.innerOpacity.value = 1.0;
+
+    uniforms.rotationAxis.value = [0.4, 1.0, 0.0];
+    uniforms.rotationSpeed.value = -0.5;
+
+    uniforms.minDistance.value = -50.0;
+    uniforms.maxDistance.value = 200.0;
+
+    uniforms.saturationValue.value = 0.25;
+    uniforms.brightnessValue.value = 0.03;
 
     camera.position.z = 60;
   }
