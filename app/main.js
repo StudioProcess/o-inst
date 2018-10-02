@@ -276,10 +276,11 @@ function loop(time) { // eslint-disable-line no-unused-vars
 
     changeCount++;
     let newWaitValue = Math.floor((Math.random() * 40) + 10);
+    // let newWaitValue = Math.floor((Math.random() * 2) + 1);
     waitValue += newWaitValue;
 
     let bwChooser = Math.floor((Math.random() * 10) + 1);
-    if(bwChooser >= 5) { blackAndWhiteMode = true; }
+    if(bwChooser >= 6) { blackAndWhiteMode = true; }
     else { blackAndWhiteMode = false; }
 
     let newMode = Math.floor((Math.random() * 6) + 1);
