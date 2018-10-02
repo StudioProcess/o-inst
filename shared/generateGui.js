@@ -1,7 +1,9 @@
+/* global dat */
 export function initGui(uniforms) {
   const keys = Object.keys(uniforms);
 
-  const gui = new dat.GUI();
+  const gui = new dat.GUI({ hideable:false });
+  gui.close();
 
   for (let i = 0, l = keys.length; i < l; i++) {
     const uniform = uniforms[keys[i]];
@@ -15,7 +17,7 @@ export function initGui(uniforms) {
     } else if (uniform.type.includes("fv")) {
       addArraySlider(gui, uniform, keys[i]);
     } else if (uniform.type === "v3v") {
-      addV3ArraySlider(gui, uniform, keys[i])
+      addV3ArraySlider(gui, uniform, keys[i]);
     }
   }
 

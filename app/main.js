@@ -607,6 +607,18 @@ function loop(time) { // eslint-disable-line no-unused-vars
   capture.update( renderer );
 }
 
+function enterFullscreen() {
+  if (!document.webkitFullscreenElement) {
+    document.querySelector('body').webkitRequestFullscreen();
+    gui.close();
+  }
+}
+
+document.addEventListener('dblclick', e => {
+  enterFullscreen();
+  e.preventDefault();
+});
+
 document.addEventListener('keydown', e => {
   if (e.key == ' ') {
     console.log('space');
@@ -619,11 +631,14 @@ document.addEventListener('keydown', e => {
       }
     );
   } else if (e.key == 'f') { // f .. fullscreen
+    enterFullscreen();
+  } 
+  else if (e.key == 'h') {
     if (!document.webkitFullscreenElement) {
-      document.querySelector('body').webkitRequestFullscreen();
-    } else { document.webkitExitFullscreen(); }
+      if (gui.closed) gui.open();
+      else gui.close();
+    }
   }
-
   else if (e.key == 'c') {
     capture.startstop(); // start/stop recording
   }
