@@ -191,7 +191,7 @@ function setup() {
     planetOuter1.frustumCulled = false;
     planet1.add(planetOuter1);
     planetGroup.add(planet1);
-    
+
     planet2 = new THREE.Group();
     const planetInner2 = new THREE.Mesh(geometry2, innerMaterial);
     planetInner2.frustumCulled = false;
@@ -201,7 +201,7 @@ function setup() {
     planet2.add(planetOuter2);
     planetGroup.add(planet2);
     planet2.visible = false;
-    
+
     scene.add(planetGroup);
   }
 
@@ -286,18 +286,19 @@ function loop(time) { // eslint-disable-line no-unused-vars
   if( clock.elapsedTime > (waitValue) ) {
 
     changeCount++;
-    // let newWaitValue = Math.floor((Math.random() * 40) + 10); // slow change
-    let newWaitValue = Math.floor((Math.random() * 2) + 1); // fast change
+    let newWaitValue = Math.floor((Math.random() * 40) + 10); // slow change
+    // let newWaitValue = Math.floor((Math.random() * 2) + 1); // fast change
     waitValue += newWaitValue;
 
     let invertChooser = Math.floor((Math.random() * 10) + 1);
     if(invertChooser >= 5) { invertMode = true; }
     else { invertMode = false; }
 
+    setPlanet(1);
+
     let newMode = Math.floor((Math.random() * 7) + 1);
 
     if( newMode == 1 && (newMode != prevMode)) {
-
 
       if(invertMode){
         uniforms.backgroundColor.value = new THREE.Color('#FFFFFF');
@@ -453,6 +454,9 @@ function loop(time) { // eslint-disable-line no-unused-vars
       console.log("switch to 3 ("+newWaitValue+" seconds)");
     }
     else if( newMode == 4  && (newMode != prevMode)) {
+      let planetChooser = Math.floor((Math.random() * 10) + 1);
+      if(planetChooser >= 5) { setPlanet(2); }
+
       if(invertMode){
         uniforms.backgroundColor.value = new THREE.Color('#FFFFFF');
 
@@ -504,6 +508,9 @@ function loop(time) { // eslint-disable-line no-unused-vars
       console.log("switch to 4 ("+newWaitValue+" seconds)");
     }
     else if( newMode == 5  && (newMode != prevMode)) {
+      let planetChooser = Math.floor((Math.random() * 10) + 1);
+      if(planetChooser >= 5) { setPlanet(2); }
+
       if(invertMode){
         uniforms.backgroundColor.value = new THREE.Color('#FFFFFF');
 
@@ -555,6 +562,9 @@ function loop(time) { // eslint-disable-line no-unused-vars
       console.log("switch to 5 ("+newWaitValue+" seconds)");
     }
     else if( newMode == 6  && (newMode != prevMode)) {
+      let planetChooser = Math.floor((Math.random() * 10) + 1);
+      if(planetChooser >= 5) { setPlanet(2); }
+
       if(invertMode){
         uniforms.backgroundColor.value = new THREE.Color('#FFFFFF');
 
@@ -722,5 +732,11 @@ document.addEventListener('keydown', e => {
   }
   else if (e.key == 'v') {
     capture.startstop( { duration:10 } ); // record 10 seconds
+  }
+  else if (e.key == 'o') {
+    setPlanet(1);
+  }
+  else if (e.key == 'p') {
+    setPlanet(2);
   }
 });
