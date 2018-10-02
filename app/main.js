@@ -611,8 +611,16 @@ function enterFullscreen() {
   if (!document.webkitFullscreenElement) {
     document.querySelector('body').webkitRequestFullscreen();
     gui.close();
+    controls.enabled = false;
   }
 }
+
+// enable controls when exiting fullscreen
+document.addEventListener('webkitfullscreenchange', () => {
+  if (!document.webkitFullscreenElement) {
+    controls.enabled = true;
+  }
+});
 
 document.addEventListener('dblclick', e => {
   enterFullscreen();
