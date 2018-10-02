@@ -59,38 +59,38 @@ const uniforms = {
   time: {type: "f", value: 0.0, hideinGui: true},
   aspectRatio: {type: "f", value: W / H, hideinGui: true},
 
-  backgroundColor: {type: "3fv", value: new THREE.Color('#1f294b'), color: true},
+  backgroundColor: {type: "3fv", value: new THREE.Color('#000000'), color: true},
 
-  outerColor0: {type: "3fv", value: [0.0, 0.0, 0.0], color: true},
-  outerColor1: {type: "3fv", value: [0.0, 0.0, 0.0], color: true},
+  outerColor0: {type: "3fv", value: [1.0, 1.0, 1.0], color: true},
+  outerColor1: {type: "3fv", value: [1.0, 1.0, 1.0], color: true},
 
-  innerColor0: {type: "3fv", value: [0.0, 0.0, 0.0], color: true},
-  innerColor1: {type: "3fv", value: [0.0, 0.0, 0.0], color: true},
+  innerColor0: {type: "3fv", value: [1.0, 1.0, 1.0], color: true},
+  innerColor1: {type: "3fv", value: [1.0, 1.0, 1.0], color: true},
 
-  radius: {type: "f", value: 8.7, step: 0.1},
-  displacementDistance: {type: "f", value: 10, step: 0.01}, // 1.4 , 0.01
+  radius: {type: "f", value: 30.0, step: 0.1},
+  displacementDistance: {type: "f", value: 100.0, step: 0.01}, // 1.4 , 0.01
 
-  innerRadius: {type: "f", value: 8.65, step: 0.1}, // 6.0, 0.1
+  innerRadius: {type: "f", value: -14.6, step: 0.1}, // 6.0, 0.1
   innerDisplacementDistance: {type: "f", value: 6.0, step: 0.01}, // 0.8, 0.01
 
   noiseSpeed: {type: "f", value: 0.0001, step: 0.001}, // 0.1, 0.001
-  noiseScale: {type: "f", value: 10.0, step: 0.01}, // 2.0, 0.01
+  noiseScale: {type: "f", value: 100.0, step: 0.01}, // 2.0, 0.01
   noiseMinValue: {type: "f", value: -1.0, min: -1.0, max: 1.0, step: 0.01}, // -0.2, -1.0, 1.0, 0.01
 
-  lineStepSize: {type: "f", value: 0.01, min: 0.0, step: 0.01}, // value: 0.1
+  lineStepSize: {type: "f", value: 0.03, min: 0.0, step: 0.01}, // value: 0.1
   lineWeight: {type: "f", value: 0.001, min: 0.0, step: 0.001}, // value: 0.008
-  lineSmoothing: {type: "f", value: 6.0, min: 0.0, step: 0.001},
+  lineSmoothing: {type: "f", value: 20.0, min: 0.0, step: 0.001},
 
   facingCull: {type: "f", value: -0.5, min: -1.0, max: 1.0, step: 0.001}, // value: -0.7
   facingCullWidth: {type: "f", value: 0.5, min: 0.0, step: 0.001},
 
   outerOpacity:  {type: "f", value: 1.0, min: 0.0, max: 1.0, step: 0.001},
-  innerOpacity:  {type: "f", value: 1.0, min: 0.0, max: 1.0, step: 0.001},
+  innerOpacity:  {type: "f", value: 0.0, min: 0.0, max: 1.0, step: 0.001},
 
-  rotationAxis: {type: "3fv", value: [0.2, 1.0, 1.0], min: -1.0, max: 1.0, step: 0.01},
-  rotationSpeed:  {type: "f", value: -0.5, min: -10.0, max: 10.0, step: 0.001},
+  rotationAxis: {type: "3fv", value: [-0.8, 0.2, -0.3], min: -1.0, max: 1.0, step: 0.01},
+  rotationSpeed:  {type: "f", value: 0.5, min: -10.0, max: 10.0, step: 0.001},
 
-  minDistance: {type: "f", value: -50.0},
+  minDistance: {type: "f", value: 50.0},
   maxDistance: {type: "f", value: 200.0},
 
   saturationValue: {type: "f", value: 0.25}, // 0.5
@@ -125,7 +125,7 @@ function setup() {
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera( 25, W / H, 0.01, 1000 );
   controls = new THREE.OrbitControls( camera, renderer.domElement );
-  camera.position.z = 15;
+  camera.position.z = 45;
 
   const background = new THREE.Mesh(
     new THREE.PlaneBufferGeometry(2.0, 2.0),
@@ -269,15 +269,15 @@ function loop(time) { // eslint-disable-line no-unused-vars
   if( clock.elapsedTime > (waitValue) ) {
 
     changeCount++;
-    let newWaitValue = Math.floor((Math.random() * 40) + 10); // slow change
-    // let newWaitValue = Math.floor((Math.random() * 2) + 1); // fast change
+    // let newWaitValue = Math.floor((Math.random() * 40) + 10); // slow change
+    let newWaitValue = Math.floor((Math.random() * 2) + 1); // fast change
     waitValue += newWaitValue;
 
     let invertChooser = Math.floor((Math.random() * 10) + 1);
     if(invertChooser >= 5) { invertMode = true; }
     else { invertMode = false; }
 
-    let newMode = Math.floor((Math.random() * 6) + 1);
+    let newMode = Math.floor((Math.random() * 7) + 1);
 
     if( newMode == 1 && (newMode != prevMode)) {
 
@@ -590,6 +590,59 @@ function loop(time) { // eslint-disable-line no-unused-vars
       camera.position.z = 38;
       console.log("switch to 6 ("+newWaitValue+" seconds)");
     }
+    else if( newMode == 7  && (newMode != prevMode)) {
+      if(invertMode){
+        uniforms.backgroundColor.value = new THREE.Color('#FFFFFF');
+
+        uniforms.outerColor0.value = new THREE.Color('#000000');
+        uniforms.outerColor1.value = new THREE.Color('#000000');
+
+        uniforms.innerColor0.value = new THREE.Color('#000000');
+        uniforms.innerColor1.value = new THREE.Color('#000000');
+      } else {
+        uniforms.backgroundColor.value = new THREE.Color('#000000');
+
+        uniforms.outerColor0.value = new THREE.Color('#FFFFFF');
+        uniforms.outerColor1.value = new THREE.Color('#FFFFFF');
+
+        uniforms.innerColor0.value = new THREE.Color('#FFFFFF');
+        uniforms.innerColor1.value = new THREE.Color('#FFFFFF');
+      }
+
+      uniforms.radius.value = 30.0;
+      uniforms.displacementDistance.value = 100.0;
+
+      uniforms.innerRadius.value = -14.6;
+      uniforms.innerDisplacementDistance.value = 6.0;
+
+      uniforms.noiseSpeed.value = 0.0001;
+      uniforms.noiseScale.value = 100.0;
+      uniforms.noiseMinValue.value = -1.0;
+
+      uniforms.lineStepSize.value = 0.03;
+      uniforms.lineWeight.value = 0.001;
+      uniforms.lineSmoothing.value = 20.0;
+
+      uniforms.facingCull.value = -0.5;
+      uniforms.facingCullWidth.value = 0.5;
+
+      uniforms.outerOpacity.value = 1.0;
+      uniforms.innerOpacity.value = 0.0;
+
+      uniforms.rotationAxis.value = [-0.8, 0.2, -0.3];
+      uniforms.rotationSpeed.value = 0.5;
+
+      uniforms.minDistance.value = 50.0;
+      uniforms.maxDistance.value = 200.0;
+
+      uniforms.saturationValue.value = 0.25;
+      uniforms.brightnessValue.value = 0.03;
+
+      camera.position.x = 2;
+      camera.position.y = 0;
+      camera.position.z = 38;
+      console.log("switch to 7 ("+newWaitValue+" seconds)");
+    }
 
     prevMode = newMode;
   }
@@ -632,7 +685,7 @@ document.addEventListener('keydown', e => {
     );
   } else if (e.key == 'f') { // f .. fullscreen
     enterFullscreen();
-  } 
+  }
   else if (e.key == 'h') {
     if (!document.webkitFullscreenElement) {
       if (gui.closed) gui.open();
