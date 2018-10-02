@@ -11,6 +11,10 @@ body {
   background-color: black;
 }
 
+body:-webkit-full-screen{cursor:none;}
+body:-moz-full-screen{cursor:none;}
+body:fullscreen{cursor:none;}
+
 canvas {
   width: 100% !important;
   height: auto !important;
