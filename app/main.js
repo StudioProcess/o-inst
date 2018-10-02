@@ -1,7 +1,4 @@
 import * as capture from '../vendor/recorder.js';
-
-
-
 import * as tilesaver from './tilesaver.js';
 import {initGui, addThreeV3Slider} from "../shared/generateGui.js";
 
@@ -17,23 +14,33 @@ const H = 1080;
 let RENDERING = false;
 let TILES = 3;
 
+let colorSpeed = 0.1;
+
 let renderer, scene, camera;
 let controls; // eslint-disable-line no-unused-vars
 
-let hue = 359;
-let saturation = 89;
-let lightness = 89;
+// let hue = 359;
+// let saturation = 89;
+// let lightness = 89;
+let hue = 360;
+let saturation = 0;
+let lightness = 49;
 let objectColor = new THREE.Color( "hsl("+hue+", "+saturation+"%, "+lightness+"%)" );
-let wait = 20;
+
+let hueIncrease = true;
+let saturationIncrease = true;
+let lightnessIncrease = true;
+
+let blackAndWhiteMode = true;
 
 let clock = new THREE.Clock();
-let delta = clock.getDelta();
-let newMode = 0;
+// let delta = clock.getDelta();
+// let newMode = 0;
 
-let startTime = clock.startTime;
-let currentTime = startTime;
-let lastChangedTime = currentTime;
-let elapsedTime;
+// let startTime = clock.startTime;
+// let currentTime = startTime;
+// let lastChangedTime = currentTime;
+// let elapsedTime;
 let waitValue = 5;
 let changeCount = 0;
 
@@ -94,8 +101,6 @@ main();
 
 function main() {
   gui = initGui(uniforms);
-
-
 
   setup(); // set up scene
 
@@ -214,21 +219,95 @@ function onResize() {
 
 function loop(time) { // eslint-disable-line no-unused-vars
 
+  if(hueIncrease) {
+    hue += 1*colorSpeed;
+    if(hue >= 359) {
+      hueIncrease = false;
+    }
+  } else {
+    hue -= 1*colorSpeed;
+    if(hue <= 1) {
+      hueIncrease = true;
+    }
+  }
+
+  if(saturationIncrease) {
+    saturation += 1*colorSpeed;
+    if(saturation >= 100) {
+      saturationIncrease = false;
+    }
+  } else {
+    saturation -= 1*colorSpeed;
+    if(saturation <= 1) {
+      saturationIncrease = true;
+    }
+  }
+
+  // if(lightnessIncrease) {
+  //   lightness += 1*colorSpeed;
+  //   if(lightness >= 99) {
+  //     lightnessIncrease = false;
+  //   }
+  // } else {
+  //   lightness -= 1*colorSpeed;
+  //   if(lightness <= 1) {
+  //     lightnessIncrease = true;
+  //   }
+  // }
+
+  // saturation += 1*colorSpeed;
+  // if(saturation >= 100) { saturation=0; }
+  // lightness += 1*colorSpeed;
+  // if(lightness >= 100) { lightness=50; }
+
+  objectColor = new THREE.Color( "hsl("+parseInt(hue)+", "+parseInt(saturation)+"%, "+parseInt(lightness)+"%)" );
+  console.log( "hsl("+parseInt(hue)+", "+parseInt(saturation)+"%, "+parseInt(lightness)+"%)" );
+
+  // uniforms.outerColor0.value = objectColor;
+  // uniforms.outerColor1.value = objectColor;
+  //
+  // uniforms.innerColor0.value = objectColor;
+  // uniforms.innerColor1.value = objectColor;
+
   clock.getElapsedTime();
 
   if( clock.elapsedTime > (waitValue) ) {
+
     changeCount++;
-    let newWaitValue = Math.floor((Math.random() * 10) + 1);
+    let newWaitValue = Math.floor((Math.random() * 40) + 10);
     waitValue += newWaitValue;
+
+    let bwChooser = Math.floor((Math.random() * 10) + 1);
+    if(bwChooser >= 5) { blackAndWhiteMode = true; }
+    else { blackAndWhiteMode = false; }
+
     let newMode = Math.floor((Math.random() * 6) + 1);
     if( newMode == 1 ) {
-      uniforms.backgroundColor.value = new THREE.Color('#1f294b');
 
-      uniforms.outerColor0.value = [0.0, 0.0, 0.0];
-      uniforms.outerColor1.value = [0.0, 0.0, 0.0];
 
-      uniforms.innerColor0.value = [0.0, 0.0, 0.0];
-      uniforms.innerColor1.value = [0.0, 0.0, 0.0];
+      if(blackAndWhiteMode){
+        uniforms.backgroundColor.value = new THREE.Color('#000000');
+
+        uniforms.outerColor0.value = new THREE.Color('#FFFFFF');
+        uniforms.outerColor1.value = new THREE.Color('#FFFFFF');
+
+        uniforms.innerColor0.value = new THREE.Color('#FFFFFF');
+        uniforms.innerColor1.value = new THREE.Color('#FFFFFF');
+      } else {
+        uniforms.backgroundColor.value = new THREE.Color('#1f294b');
+
+        // uniforms.outerColor0.value = [0.0, 0.0, 0.0];
+        // uniforms.outerColor1.value = [0.0, 0.0, 0.0];
+        //
+        // uniforms.innerColor0.value = [0.0, 0.0, 0.0];
+        // uniforms.innerColor1.value = [0.0, 0.0, 0.0];
+
+        uniforms.outerColor0.value = objectColor;
+        uniforms.outerColor1.value = objectColor;
+
+        uniforms.innerColor0.value = objectColor;
+        uniforms.innerColor1.value = objectColor;
+      }
 
       uniforms.radius.value = 8.7;
       uniforms.displacementDistance.value = 10;
@@ -264,13 +343,29 @@ function loop(time) { // eslint-disable-line no-unused-vars
       console.log("switch to 1 ("+newWaitValue+" seconds)");
     }
     else if( newMode == 2 ) {
-      uniforms.backgroundColor.value = new THREE.Color('#1f294b');
+      if(blackAndWhiteMode){
+        uniforms.backgroundColor.value = new THREE.Color('#000000');
 
-      uniforms.outerColor0.value = new THREE.Color('#e31a1c');
-      uniforms.outerColor1.value = [1.0, 0.0, 0.0];
+        uniforms.outerColor0.value = new THREE.Color('#FFFFFF');
+        uniforms.outerColor1.value = new THREE.Color('#FFFFFF');
 
-      uniforms.innerColor0.value = [1.0, 1.0, 1.0];
-      uniforms.innerColor1.value = [1.0, 1.0, 1.0];
+        uniforms.innerColor0.value = new THREE.Color('#FFFFFF');
+        uniforms.innerColor1.value = new THREE.Color('#FFFFFF');
+      } else {
+        uniforms.backgroundColor.value = new THREE.Color('#1f294b');
+
+        // uniforms.outerColor0.value = new THREE.Color('#e31a1c');
+        // uniforms.outerColor1.value = [1.0, 0.0, 0.0];
+        //
+        // uniforms.innerColor0.value = [1.0, 1.0, 1.0];
+        // uniforms.innerColor1.value = [1.0, 1.0, 1.0];
+
+        uniforms.outerColor0.value = objectColor;
+        uniforms.outerColor1.value = objectColor;
+
+        uniforms.innerColor0.value = objectColor;
+        uniforms.innerColor1.value = objectColor;
+      }
 
       uniforms.radius.value = 7.9;
       uniforms.displacementDistance.value = 0.77;
@@ -305,11 +400,23 @@ function loop(time) { // eslint-disable-line no-unused-vars
       console.log("switch to 2 ("+newWaitValue+" seconds)");
     }
     else if( newMode == 3 ) {
-      uniforms.outerColor0.value = objectColor;
-      uniforms.outerColor1.value = objectColor;
+      if(blackAndWhiteMode){
+        uniforms.backgroundColor.value = new THREE.Color('#000000');
 
-      uniforms.innerColor0.value = objectColor;
-      uniforms.innerColor1.value = objectColor;
+        uniforms.outerColor0.value = new THREE.Color('#FFFFFF');
+        uniforms.outerColor1.value = new THREE.Color('#FFFFFF');
+
+        uniforms.innerColor0.value = new THREE.Color('#FFFFFF');
+        uniforms.innerColor1.value = new THREE.Color('#FFFFFF');
+      } else {
+        uniforms.backgroundColor.value = [0.0, 0.0, 0.0];
+
+        uniforms.outerColor0.value = objectColor;
+        uniforms.outerColor1.value = objectColor;
+
+        uniforms.innerColor0.value = objectColor;
+        uniforms.innerColor1.value = objectColor;
+      }
 
       uniforms.radius.value = 20.0;
       uniforms.displacementDistance.value = 1.12;
@@ -317,13 +424,13 @@ function loop(time) { // eslint-disable-line no-unused-vars
       uniforms.innerRadius.value = 20.0;
       uniforms.innerDisplacementDistance.value = 3.76;
 
-      uniforms.noiseSpeed.value = 0.03;
-      uniforms.noiseScale.value = 1.85;
+      uniforms.noiseSpeed.value = 0.001; // 0.03
+      uniforms.noiseScale.value = 10.0; //  1.85;
       uniforms.noiseMinValue.value = -1.0;
 
       uniforms.lineStepSize.value = 0.01;
       uniforms.lineWeight.value = 0.002;
-      uniforms.lineSmoothing.value = 3.0;
+      uniforms.lineSmoothing.value = 20.0;
 
       uniforms.facingCull.value = -1.0;
       uniforms.facingCullWidth.value = 0.0;
@@ -344,13 +451,29 @@ function loop(time) { // eslint-disable-line no-unused-vars
       console.log("switch to 3 ("+newWaitValue+" seconds)");
     }
     else if( newMode == 4 ) {
-      uniforms.backgroundColor.value = new THREE.Color('#f2c506');
+      if(blackAndWhiteMode){
+        uniforms.backgroundColor.value = new THREE.Color('#000000');
 
-      uniforms.outerColor0.value = new THREE.Color('#0d3af9');
-      uniforms.outerColor1.value = [1.0, 1.0, 1.0];
+        uniforms.outerColor0.value = new THREE.Color('#FFFFFF');
+        uniforms.outerColor1.value = new THREE.Color('#FFFFFF');
 
-      uniforms.innerColor0.value = [1.0, 1.0, 1.0];
-      uniforms.innerColor1.value = [1.0, 1.0, 1.0];
+        uniforms.innerColor0.value = new THREE.Color('#FFFFFF');
+        uniforms.innerColor1.value = new THREE.Color('#FFFFFF');
+      } else {
+        uniforms.backgroundColor.value = new THREE.Color('#f2c506');
+
+        // uniforms.outerColor0.value = new THREE.Color('#0d3af9');
+        // uniforms.outerColor1.value = [1.0, 1.0, 1.0];
+        //
+        // uniforms.innerColor0.value = [1.0, 1.0, 1.0];
+        // uniforms.innerColor1.value = [1.0, 1.0, 1.0];
+
+        uniforms.outerColor0.value = objectColor;
+        uniforms.outerColor1.value = objectColor;
+
+        uniforms.innerColor0.value = objectColor;
+        uniforms.innerColor1.value = objectColor;
+      }
 
       uniforms.radius.value = 7.9;
       uniforms.displacementDistance.value = 0.77;
@@ -385,13 +508,30 @@ function loop(time) { // eslint-disable-line no-unused-vars
       console.log("switch to 4 ("+newWaitValue+" seconds)");
     }
     else if( newMode == 5 ) {
-      uniforms.backgroundColor.value = new THREE.Color('#131525');
+      if(blackAndWhiteMode){
+        uniforms.backgroundColor.value = new THREE.Color('#000000');
 
-      uniforms.outerColor0.value = [1.0, 0.0, 0.0];
-      uniforms.outerColor1.value = [0.8, 0.65, 1.0];
+        uniforms.outerColor0.value = new THREE.Color('#FFFFFF');
+        uniforms.outerColor1.value = new THREE.Color('#FFFFFF');
 
-      uniforms.innerColor0.value = [1.0, 1.0, 1.0];
-      uniforms.innerColor1.value = [1.0, 1.0, 1.0];
+        uniforms.innerColor0.value = new THREE.Color('#FFFFFF');
+        uniforms.innerColor1.value = new THREE.Color('#FFFFFF');
+      } else {
+
+        uniforms.backgroundColor.value = new THREE.Color('#131525');
+
+        // uniforms.outerColor0.value = [1.0, 0.0, 0.0];
+        // uniforms.outerColor1.value = [0.8, 0.65, 1.0];
+        //
+        // uniforms.innerColor0.value = [1.0, 1.0, 1.0];
+        // uniforms.innerColor1.value = [1.0, 1.0, 1.0];
+
+        uniforms.outerColor0.value = objectColor;
+        uniforms.outerColor1.value = objectColor;
+
+        uniforms.innerColor0.value = objectColor;
+        uniforms.innerColor1.value = objectColor;
+      }
 
       uniforms.radius.value = 17.9;
       uniforms.displacementDistance.value = 1.77;
@@ -426,13 +566,30 @@ function loop(time) { // eslint-disable-line no-unused-vars
       console.log("switch to 5 ("+newWaitValue+" seconds)");
     }
     else if( newMode == 6 ) {
-      uniforms.backgroundColor.value = new THREE.Color('#131525');
+      if(blackAndWhiteMode){
+        uniforms.backgroundColor.value = new THREE.Color('#000000');
 
-      uniforms.outerColor0.value = [1.0, 1.0, 1.0];
-      uniforms.outerColor1.value = [1.0, 1.0, 1.0];
+        uniforms.outerColor0.value = new THREE.Color('#FFFFFF');
+        uniforms.outerColor1.value = new THREE.Color('#FFFFFF');
 
-      uniforms.innerColor0.value = [1.0, 1.0, 1.0];
-      uniforms.innerColor1.value = [0.0, 0.0, 0.0];
+        uniforms.innerColor0.value = new THREE.Color('#FFFFFF');
+        uniforms.innerColor1.value = new THREE.Color('#FFFFFF');
+      } else {
+
+        uniforms.backgroundColor.value = new THREE.Color('#131525');
+
+        // uniforms.outerColor0.value = [1.0, 1.0, 1.0];
+        // uniforms.outerColor1.value = [1.0, 1.0, 1.0];
+        //
+        // uniforms.innerColor0.value = [1.0, 1.0, 1.0];
+        // uniforms.innerColor1.value = [0.0, 0.0, 0.0];
+
+        uniforms.outerColor0.value = objectColor;
+        uniforms.outerColor1.value = objectColor;
+
+        uniforms.innerColor0.value = objectColor;
+        uniforms.innerColor1.value = objectColor;
+      }
 
       uniforms.radius.value = 15.1;
       uniforms.displacementDistance.value = 12.56;
@@ -446,7 +603,7 @@ function loop(time) { // eslint-disable-line no-unused-vars
 
       uniforms.lineStepSize.value = 0.22;
       uniforms.lineWeight.value = 0.011;
-      uniforms.lineSmoothing.value = 50.0;
+      uniforms.lineSmoothing.value = 150.0;
 
       uniforms.facingCull.value = -0.44;
       uniforms.facingCullWidth.value = 0.498;
@@ -492,7 +649,7 @@ function loop(time) { // eslint-disable-line no-unused-vars
   // }
   // if(clock.oldTime)
   // // console.log(clock.getElapsedTime()%10);
-  objectColor = new THREE.Color( "hsl("+hue+", "+saturation+"%, "+lightness+"%)" );
+
 
 
   // let currentSeconds = parseInt(clock.getElapsedTime());
@@ -563,319 +720,323 @@ document.addEventListener('keydown', e => {
   else if (e.key == 'v') {
     capture.startstop( { duration:10 } ); // record 10 seconds
   }
-  else if (e.key == '1'){
-
-    // scene.remove( scene.children );
-
-    // const geometry = new THREE.IcosahedronBufferGeometry(1.0, 1);
-    // const outerMaterial = new THREE.RawShaderMaterial({
-    //   vertexShader,
-    //   fragmentShader,
-    //   uniforms,
-    //
-    //   side: THREE.DoubleSide,
-    //   // wireframe: true,
-    //   transparent: true,
-    //   // blending: THREE.AdditiveBlending,
-    //   depthTest: false,
-    //   depthWrite: false,
-    // });
-    //
-    // const innerMaterial = new THREE.RawShaderMaterial({
-    //   vertexShader,
-    //   fragmentShader,
-    //   uniforms,
-    //   side: THREE.DoubleSide,
-    //   // wireframe: true,
-    //   transparent: true,
-    //   // blending: THREE.AdditiveBlending,
-    //   depthTest: false,
-    //   depthWrite: false,
-    //   defines: {
-    //     INNER: true
-    //   }
-    // });
-    //
-    // for (let i = 0, l = planetPositions.length; i < l; i++) {
-    //   const planetGroup = new THREE.Group();
-    //
-    //   planetGroup.position.x = planetPositions[i].x;
-    //   planetGroup.position.y = planetPositions[i].y;
-    //   planetGroup.position.z = planetPositions[i].z;
-    //
-    //   // addThreeV3Slider(gui, planetGroup.position, `Planet ${i}`);
-    //
-    //   const planetInner = new THREE.Mesh(
-    //     geometry,
-    //     innerMaterial
-    //   );
-    //   planetInner.frustumCulled = false;
-    //   planetGroup.add(planetInner);
-    //
-    //   const planet = new THREE.Mesh(
-    //     geometry,
-    //     outerMaterial
-    //   );
-    //   planet.frustumCulled = false;
-    //   planetGroup.add(planet);
-    //
-    //   scene.add(planetGroup);
-    // }
-
-    uniforms.backgroundColor.value = new THREE.Color('#1f294b');
-
-    uniforms.outerColor0.value = [0.0, 0.0, 0.0];
-    uniforms.outerColor1.value = [0.0, 0.0, 0.0];
-
-    uniforms.innerColor0.value = [0.0, 0.0, 0.0];
-    uniforms.innerColor1.value = [0.0, 0.0, 0.0];
-
-    uniforms.radius.value = 8.7;
-    uniforms.displacementDistance.value = 10;
-
-    uniforms.innerRadius.value = 8.65;
-    uniforms.innerDisplacementDistance.value = 6.0;
-
-    uniforms.noiseSpeed.value = 0.001;
-    uniforms.noiseScale.value = 10.0;
-    uniforms.noiseMinValue.value = -1.0;
-
-    uniforms.lineStepSize.value = 0.01;
-    uniforms.lineWeight.value = 0.001;
-    uniforms.lineSmoothing.value = 6.0;
-
-    uniforms.facingCull.value = -0.5;
-    uniforms.facingCullWidth.value = 0.5;
-
-    uniforms.outerOpacity.value = 1.0;
-    uniforms.innerOpacity.value = 1.0;
-
-    uniforms.rotationAxis.value = [0.2, 1.0, 1.0];
-    uniforms.rotationSpeed.value = -0.5;
-
-    uniforms.minDistance.value = 10.0;
-    uniforms.maxDistance.value = 200.0;
-
-    uniforms.saturationValue.value = 0.25;
-    uniforms.brightnessValue.value = 0.03;
-
-    camera.position.z = 15;
-
-  }
-  else if (e.key == '2') {
-
-    // const geometry = new THREE.IcosahedronBufferGeometry(1.0, 5);
-
-    uniforms.backgroundColor.value = new THREE.Color('#1f294b');
-
-    uniforms.outerColor0.value = new THREE.Color('#e31a1c');
-    uniforms.outerColor1.value = [1.0, 0.0, 0.0];
-
-    uniforms.innerColor0.value = [1.0, 1.0, 1.0];
-    uniforms.innerColor1.value = [1.0, 1.0, 1.0];
-
-    uniforms.radius.value = 7.9;
-    uniforms.displacementDistance.value = 0.77;
-
-    uniforms.innerRadius.value = -2.0;
-    uniforms.innerDisplacementDistance.value = 0.34;
-
-    uniforms.noiseSpeed.value = 0.01;
-    uniforms.noiseScale.value = 19.26;
-    uniforms.noiseMinValue.value = -0.605;
-
-    uniforms.lineStepSize.value = 0.01;
-    uniforms.lineWeight.value = 0.003;
-    uniforms.lineSmoothing.value = 400.0;
-
-    uniforms.facingCull.value = -0.44;
-    uniforms.facingCullWidth.value = 0.498;
-
-    uniforms.outerOpacity.value = 1.0;
-    uniforms.innerOpacity.value = 0.0;
-
-    uniforms.rotationAxis.value = [0.4, 1.0, 0.0];
-    uniforms.rotationSpeed.value = -0.5;
-
-    uniforms.minDistance.value = 100.0;
-    uniforms.maxDistance.value = 200.0;
-
-    uniforms.saturationValue.value = 1.0;
-    uniforms.brightnessValue.value = 0.03;
-
-    camera.position.z = 8;
-  }
-  else if (e.key == '3') {
-    uniforms.backgroundColor.value = [0.0, 0.0, 0.0];
-
-    // uniforms.outerColor0.value = [1.0, 1.0, 1.0];
-    // uniforms.outerColor1.value = [1.0, 1.0, 1.0];
-    //
-    // uniforms.innerColor0.value = [1.0, 1.0, 1.0];
-    // uniforms.innerColor1.value = [1.0, 1.0, 1.0];
-
-    uniforms.outerColor0.value = objectColor;
-    uniforms.outerColor1.value = objectColor;
-
-    uniforms.innerColor0.value = objectColor;
-    uniforms.innerColor1.value = objectColor;
-
-    uniforms.radius.value = 20.0;
-    uniforms.displacementDistance.value = 1.12;
-
-    uniforms.innerRadius.value = 20.0;
-    uniforms.innerDisplacementDistance.value = 3.76;
-
-    uniforms.noiseSpeed.value = 0.03;
-    uniforms.noiseScale.value = 1.85;
-    uniforms.noiseMinValue.value = -1.0;
-
-    uniforms.lineStepSize.value = 0.01;
-    uniforms.lineWeight.value = 0.002;
-    uniforms.lineSmoothing.value = 3.0;
-
-    uniforms.facingCull.value = -1.0;
-    uniforms.facingCullWidth.value = 0.0;
-
-    uniforms.outerOpacity.value = 1.0;
-    uniforms.innerOpacity.value = 1.0;
-
-    uniforms.rotationAxis.value = [0.4, 1.0, 0.0];
-    uniforms.rotationSpeed.value = -0.5;
-
-    uniforms.minDistance.value = 100.0;
-    uniforms.maxDistance.value = 500.0;
-
-    uniforms.saturationValue.value = 1.0;
-    uniforms.brightnessValue.value = 1.0;
-
-    camera.position.z = 25;
-  }
-  else if (e.key == '4') {
-    // uniforms.backgroundColor.value = [0.0, 0.0, 0.0];
-
-    // uniforms.outerColor0.value = [1.0, 1.0, 1.0];
-    // uniforms.outerColor1.value = [1.0, 1.0, 1.0];
-
-    uniforms.backgroundColor.value = new THREE.Color('#f2c506');
-
-    uniforms.outerColor0.value = new THREE.Color('#0d3af9');
-    uniforms.outerColor1.value = [1.0, 1.0, 1.0];
-
-    uniforms.innerColor0.value = [1.0, 1.0, 1.0];
-    uniforms.innerColor1.value = [1.0, 1.0, 1.0];
-
-    uniforms.radius.value = 7.9;
-    uniforms.displacementDistance.value = 0.77;
-
-    uniforms.innerRadius.value = 7.9;
-    uniforms.innerDisplacementDistance.value = 0.34;
-
-    uniforms.noiseSpeed.value = 0.01;
-    uniforms.noiseScale.value = 19.26;
-    uniforms.noiseMinValue.value = -0.605;
-
-    uniforms.lineStepSize.value = 0.22;
-    uniforms.lineWeight.value = 0.011;
-    uniforms.lineSmoothing.value = 190.0;
-
-    uniforms.facingCull.value = -0.44;
-    uniforms.facingCullWidth.value = 0.498;
-
-    uniforms.outerOpacity.value = 1.0;
-    uniforms.innerOpacity.value = 0.0;
-
-    uniforms.rotationAxis.value = [0.4, 0.1, 1.0];
-    uniforms.rotationSpeed.value = -0.5;
-
-    uniforms.minDistance.value = 0.0;
-    uniforms.maxDistance.value = 500.0;
-
-    uniforms.saturationValue.value = 0.25;
-    uniforms.brightnessValue.value = 0.03;
-
-    camera.position.z = 20;
-  }
-  else if (e.key == '5') {
-    uniforms.backgroundColor.value = new THREE.Color('#131525');
-
-    uniforms.outerColor0.value = [1.0, 0.0, 0.0];
-    uniforms.outerColor1.value = [0.8, 0.65, 1.0];
-
-    uniforms.innerColor0.value = [1.0, 1.0, 1.0];
-    uniforms.innerColor1.value = [1.0, 1.0, 1.0];
-
-    uniforms.radius.value = 17.9;
-    uniforms.displacementDistance.value = 1.77;
-
-    uniforms.innerRadius.value = 7.9;
-    uniforms.innerDisplacementDistance.value = 0.34;
-
-    uniforms.noiseSpeed.value = 0.001;
-    uniforms.noiseScale.value = 190.26;
-    uniforms.noiseMinValue.value = -0.605;
-
-    uniforms.lineStepSize.value = 0.22;
-    uniforms.lineWeight.value = 0.011;
-    uniforms.lineSmoothing.value = 190.0;
-
-    uniforms.facingCull.value = -0.44;
-    uniforms.facingCullWidth.value = 0.498;
-
-    uniforms.outerOpacity.value = 1.0;
-    uniforms.innerOpacity.value = 0.0;
-
-    uniforms.rotationAxis.value = [1.0, 1.0, 1.0];
-    uniforms.rotationSpeed.value = -0.5;
-
-    uniforms.minDistance.value = 0.0;
-    uniforms.maxDistance.value = 500.0;
-
-    uniforms.saturationValue.value = 0.25;
-    uniforms.brightnessValue.value = 0.03;
-
-    camera.position.z = 40;
-  }
-  else if (e.key == '6') {
-    uniforms.backgroundColor.value = new THREE.Color('#131525');
-
-    uniforms.outerColor0.value = [1.0, 1.0, 1.0];
-    uniforms.outerColor1.value = [1.0, 1.0, 1.0];
-
-    uniforms.innerColor0.value = [1.0, 1.0, 1.0];
-    uniforms.innerColor1.value = [0.0, 0.0, 0.0];
-
-    uniforms.radius.value = 15.1;
-    uniforms.displacementDistance.value = 12.56;
-
-    uniforms.innerRadius.value = 6.8;
-    uniforms.innerDisplacementDistance.value = 0.34;
-
-    uniforms.noiseSpeed.value = 0.0001;
-    uniforms.noiseScale.value = 10.00;
-    uniforms.noiseMinValue.value = -0.605;
-
-    uniforms.lineStepSize.value = 0.22;
-    uniforms.lineWeight.value = 0.011;
-    uniforms.lineSmoothing.value = 50.0;
-
-    uniforms.facingCull.value = -0.44;
-    uniforms.facingCullWidth.value = 0.498;
-
-    uniforms.outerOpacity.value = 1.0;
-    uniforms.innerOpacity.value = 0.0;
-
-    uniforms.rotationAxis.value = [-1.0, -1.0, 1.0];
-    uniforms.rotationSpeed.value = -0.5;
-
-    uniforms.minDistance.value = 0.0;
-    uniforms.maxDistance.value = 500.0;
-
-    uniforms.saturationValue.value = 0.25;
-    uniforms.brightnessValue.value = 0.03;
-
-    camera.position.x = 2;
-    camera.position.y = 0;
-    camera.position.z = 38;
-  }
+  // else if (e.key == '1'){
+  //
+  //   // scene.remove( scene.children );
+  //
+  //   // const geometry = new THREE.IcosahedronBufferGeometry(1.0, 1);
+  //   // const outerMaterial = new THREE.RawShaderMaterial({
+  //   //   vertexShader,
+  //   //   fragmentShader,
+  //   //   uniforms,
+  //   //
+  //   //   side: THREE.DoubleSide,
+  //   //   // wireframe: true,
+  //   //   transparent: true,
+  //   //   // blending: THREE.AdditiveBlending,
+  //   //   depthTest: false,
+  //   //   depthWrite: false,
+  //   // });
+  //   //
+  //   // const innerMaterial = new THREE.RawShaderMaterial({
+  //   //   vertexShader,
+  //   //   fragmentShader,
+  //   //   uniforms,
+  //   //   side: THREE.DoubleSide,
+  //   //   // wireframe: true,
+  //   //   transparent: true,
+  //   //   // blending: THREE.AdditiveBlending,
+  //   //   depthTest: false,
+  //   //   depthWrite: false,
+  //   //   defines: {
+  //   //     INNER: true
+  //   //   }
+  //   // });
+  //   //
+  //   // for (let i = 0, l = planetPositions.length; i < l; i++) {
+  //   //   const planetGroup = new THREE.Group();
+  //   //
+  //   //   planetGroup.position.x = planetPositions[i].x;
+  //   //   planetGroup.position.y = planetPositions[i].y;
+  //   //   planetGroup.position.z = planetPositions[i].z;
+  //   //
+  //   //   // addThreeV3Slider(gui, planetGroup.position, `Planet ${i}`);
+  //   //
+  //   //   const planetInner = new THREE.Mesh(
+  //   //     geometry,
+  //   //     innerMaterial
+  //   //   );
+  //   //   planetInner.frustumCulled = false;
+  //   //   planetGroup.add(planetInner);
+  //   //
+  //   //   const planet = new THREE.Mesh(
+  //   //     geometry,
+  //   //     outerMaterial
+  //   //   );
+  //   //   planet.frustumCulled = false;
+  //   //   planetGroup.add(planet);
+  //   //
+  //   //   scene.add(planetGroup);
+  //   // }
+  //
+  //   uniforms.backgroundColor.value = new THREE.Color('#1f294b');
+  //
+  //   uniforms.outerColor0.value = [0.0, 0.0, 0.0];
+  //   uniforms.outerColor1.value = [0.0, 0.0, 0.0];
+  //
+  //   uniforms.innerColor0.value = [0.0, 0.0, 0.0];
+  //   uniforms.innerColor1.value = [0.0, 0.0, 0.0];
+  //
+  //   uniforms.radius.value = 8.7;
+  //   uniforms.displacementDistance.value = 10;
+  //
+  //   uniforms.innerRadius.value = 8.65;
+  //   uniforms.innerDisplacementDistance.value = 6.0;
+  //
+  //   uniforms.noiseSpeed.value = 0.001;
+  //   uniforms.noiseScale.value = 10.0;
+  //   uniforms.noiseMinValue.value = -1.0;
+  //
+  //   uniforms.lineStepSize.value = 0.01;
+  //   uniforms.lineWeight.value = 0.001;
+  //   uniforms.lineSmoothing.value = 6.0;
+  //
+  //   uniforms.facingCull.value = -0.5;
+  //   uniforms.facingCullWidth.value = 0.5;
+  //
+  //   uniforms.outerOpacity.value = 1.0;
+  //   uniforms.innerOpacity.value = 1.0;
+  //
+  //   uniforms.rotationAxis.value = [0.2, 1.0, 1.0];
+  //   uniforms.rotationSpeed.value = -0.5;
+  //
+  //   uniforms.minDistance.value = 10.0;
+  //   uniforms.maxDistance.value = 200.0;
+  //
+  //   uniforms.saturationValue.value = 0.25;
+  //   uniforms.brightnessValue.value = 0.03;
+  //
+  //   camera.position.z = 15;
+  //
+  // }
+  // else if (e.key == '2') {
+  //
+  //   // const geometry = new THREE.IcosahedronBufferGeometry(1.0, 5);
+  //
+  //   uniforms.backgroundColor.value = new THREE.Color('#1f294b');
+  //
+  //   uniforms.outerColor0.value = new THREE.Color('#e31a1c');
+  //   uniforms.outerColor1.value = [1.0, 0.0, 0.0];
+  //
+  //   uniforms.innerColor0.value = [1.0, 1.0, 1.0];
+  //   uniforms.innerColor1.value = [1.0, 1.0, 1.0];
+  //
+  //   uniforms.radius.value = 7.9;
+  //   uniforms.displacementDistance.value = 0.77;
+  //
+  //   uniforms.innerRadius.value = -2.0;
+  //   uniforms.innerDisplacementDistance.value = 0.34;
+  //
+  //   uniforms.noiseSpeed.value = 0.01;
+  //   uniforms.noiseScale.value = 19.26;
+  //   uniforms.noiseMinValue.value = -0.605;
+  //
+  //   uniforms.lineStepSize.value = 0.01;
+  //   uniforms.lineWeight.value = 0.003;
+  //   uniforms.lineSmoothing.value = 400.0;
+  //
+  //   uniforms.facingCull.value = -0.44;
+  //   uniforms.facingCullWidth.value = 0.498;
+  //
+  //   uniforms.outerOpacity.value = 1.0;
+  //   uniforms.innerOpacity.value = 0.0;
+  //
+  //   uniforms.rotationAxis.value = [0.4, 1.0, 0.0];
+  //   uniforms.rotationSpeed.value = -0.5;
+  //
+  //   uniforms.minDistance.value = 100.0;
+  //   uniforms.maxDistance.value = 200.0;
+  //
+  //   uniforms.saturationValue.value = 1.0;
+  //   uniforms.brightnessValue.value = 0.03;
+  //
+  //   camera.position.z = 8;
+  // }
+  // else if (e.key == '3') {
+  //   uniforms.backgroundColor.value = [0.0, 0.0, 0.0];
+  //
+  //   // uniforms.outerColor0.value = [1.0, 1.0, 1.0];
+  //   // uniforms.outerColor1.value = [1.0, 1.0, 1.0];
+  //   //
+  //   // uniforms.innerColor0.value = [1.0, 1.0, 1.0];
+  //   // uniforms.innerColor1.value = [1.0, 1.0, 1.0];
+  //
+  //   uniforms.outerColor0.value = objectColor;
+  //   uniforms.outerColor1.value = objectColor;
+  //
+  //   uniforms.innerColor0.value = objectColor;
+  //   uniforms.innerColor1.value = objectColor;
+  //
+  //   uniforms.radius.value = 20.0;
+  //   uniforms.displacementDistance.value = 1.12;
+  //
+  //   uniforms.innerRadius.value = 20.0;
+  //   uniforms.innerDisplacementDistance.value = 3.76;
+  //
+  //   // uniforms.noiseSpeed.value = 0.03;
+  //   // uniforms.noiseScale.value = 1.85;
+  //   // uniforms.noiseMinValue.value = -1.0;
+  //
+  //   uniforms.noiseSpeed.value = 0.001; // 0.03
+  //   uniforms.noiseScale.value = 10.0; //  1.85;
+  //   uniforms.noiseMinValue.value = -1.0;
+  //
+  //   uniforms.lineStepSize.value = 0.01;
+  //   uniforms.lineWeight.value = 0.002;
+  //   uniforms.lineSmoothing.value = 150.0;
+  //
+  //   uniforms.facingCull.value = -1.0;
+  //   uniforms.facingCullWidth.value = 0.0;
+  //
+  //   uniforms.outerOpacity.value = 1.0;
+  //   uniforms.innerOpacity.value = 1.0;
+  //
+  //   uniforms.rotationAxis.value = [0.4, 1.0, 0.0];
+  //   uniforms.rotationSpeed.value = -0.5;
+  //
+  //   uniforms.minDistance.value = 100.0;
+  //   uniforms.maxDistance.value = 500.0;
+  //
+  //   uniforms.saturationValue.value = 1.0;
+  //   uniforms.brightnessValue.value = 1.0;
+  //
+  //   camera.position.z = 25;
+  // }
+  // else if (e.key == '4') {
+  //   // uniforms.backgroundColor.value = [0.0, 0.0, 0.0];
+  //
+  //   // uniforms.outerColor0.value = [1.0, 1.0, 1.0];
+  //   // uniforms.outerColor1.value = [1.0, 1.0, 1.0];
+  //
+  //   uniforms.backgroundColor.value = new THREE.Color('#f2c506');
+  //
+  //   uniforms.outerColor0.value = new THREE.Color('#0d3af9');
+  //   uniforms.outerColor1.value = [1.0, 1.0, 1.0];
+  //
+  //   uniforms.innerColor0.value = [1.0, 1.0, 1.0];
+  //   uniforms.innerColor1.value = [1.0, 1.0, 1.0];
+  //
+  //   uniforms.radius.value = 7.9;
+  //   uniforms.displacementDistance.value = 0.77;
+  //
+  //   uniforms.innerRadius.value = 7.9;
+  //   uniforms.innerDisplacementDistance.value = 0.34;
+  //
+  //   uniforms.noiseSpeed.value = 0.01;
+  //   uniforms.noiseScale.value = 19.26;
+  //   uniforms.noiseMinValue.value = -0.605;
+  //
+  //   uniforms.lineStepSize.value = 0.22;
+  //   uniforms.lineWeight.value = 0.011;
+  //   uniforms.lineSmoothing.value = 190.0;
+  //
+  //   uniforms.facingCull.value = -0.44;
+  //   uniforms.facingCullWidth.value = 0.498;
+  //
+  //   uniforms.outerOpacity.value = 1.0;
+  //   uniforms.innerOpacity.value = 0.0;
+  //
+  //   uniforms.rotationAxis.value = [0.4, 0.1, 1.0];
+  //   uniforms.rotationSpeed.value = -0.5;
+  //
+  //   uniforms.minDistance.value = 0.0;
+  //   uniforms.maxDistance.value = 500.0;
+  //
+  //   uniforms.saturationValue.value = 0.25;
+  //   uniforms.brightnessValue.value = 0.03;
+  //
+  //   camera.position.z = 20;
+  // }
+  // else if (e.key == '5') {
+  //   uniforms.backgroundColor.value = new THREE.Color('#131525');
+  //
+  //   uniforms.outerColor0.value = [1.0, 0.0, 0.0];
+  //   uniforms.outerColor1.value = [0.8, 0.65, 1.0];
+  //
+  //   uniforms.innerColor0.value = [1.0, 1.0, 1.0];
+  //   uniforms.innerColor1.value = [1.0, 1.0, 1.0];
+  //
+  //   uniforms.radius.value = 17.9;
+  //   uniforms.displacementDistance.value = 1.77;
+  //
+  //   uniforms.innerRadius.value = 7.9;
+  //   uniforms.innerDisplacementDistance.value = 0.34;
+  //
+  //   uniforms.noiseSpeed.value = 0.001;
+  //   uniforms.noiseScale.value = 190.26;
+  //   uniforms.noiseMinValue.value = -0.605;
+  //
+  //   uniforms.lineStepSize.value = 0.22;
+  //   uniforms.lineWeight.value = 0.011;
+  //   uniforms.lineSmoothing.value = 190.0;
+  //
+  //   uniforms.facingCull.value = -0.44;
+  //   uniforms.facingCullWidth.value = 0.498;
+  //
+  //   uniforms.outerOpacity.value = 1.0;
+  //   uniforms.innerOpacity.value = 0.0;
+  //
+  //   uniforms.rotationAxis.value = [1.0, 1.0, 1.0];
+  //   uniforms.rotationSpeed.value = -0.5;
+  //
+  //   uniforms.minDistance.value = 0.0;
+  //   uniforms.maxDistance.value = 500.0;
+  //
+  //   uniforms.saturationValue.value = 0.25;
+  //   uniforms.brightnessValue.value = 0.03;
+  //
+  //   camera.position.z = 40;
+  // }
+  // else if (e.key == '6') {
+  //   uniforms.backgroundColor.value = new THREE.Color('#131525');
+  //
+  //   uniforms.outerColor0.value = [1.0, 1.0, 1.0];
+  //   uniforms.outerColor1.value = [1.0, 1.0, 1.0];
+  //
+  //   uniforms.innerColor0.value = [1.0, 1.0, 1.0];
+  //   uniforms.innerColor1.value = [0.0, 0.0, 0.0];
+  //
+  //   uniforms.radius.value = 15.1;
+  //   uniforms.displacementDistance.value = 12.56;
+  //
+  //   uniforms.innerRadius.value = 6.8;
+  //   uniforms.innerDisplacementDistance.value = 0.34;
+  //
+  //   uniforms.noiseSpeed.value = 0.0001;
+  //   uniforms.noiseScale.value = 10.00;
+  //   uniforms.noiseMinValue.value = -0.605;
+  //
+  //   uniforms.lineStepSize.value = 0.22;
+  //   uniforms.lineWeight.value = 0.011;
+  //   uniforms.lineSmoothing.value = 50.0;
+  //
+  //   uniforms.facingCull.value = -0.44;
+  //   uniforms.facingCullWidth.value = 0.498;
+  //
+  //   uniforms.outerOpacity.value = 1.0;
+  //   uniforms.innerOpacity.value = 0.0;
+  //
+  //   uniforms.rotationAxis.value = [-1.0, -1.0, 1.0];
+  //   uniforms.rotationSpeed.value = -0.5;
+  //
+  //   uniforms.minDistance.value = 0.0;
+  //   uniforms.maxDistance.value = 500.0;
+  //
+  //   uniforms.saturationValue.value = 0.25;
+  //   uniforms.brightnessValue.value = 0.03;
+  //
+  //   camera.position.x = 2;
+  //   camera.position.y = 0;
+  //   camera.position.z = 38;
+  // }
 });
