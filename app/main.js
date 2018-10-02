@@ -286,8 +286,8 @@ function loop(time) { // eslint-disable-line no-unused-vars
   if( clock.elapsedTime > (waitValue) ) {
 
     changeCount++;
-    let newWaitValue = Math.floor((Math.random() * 40) + 10); // slow change
-    // let newWaitValue = Math.floor((Math.random() * 2) + 1); // fast change
+    let newWaitValue = Math.floor((Math.random() * 40) + 15); // slow change
+    // let newWaitValue = Math.floor((Math.random() * 1)); // fast change
     waitValue += newWaitValue;
 
     let invertChooser = Math.floor((Math.random() * 10) + 1);
@@ -296,11 +296,14 @@ function loop(time) { // eslint-disable-line no-unused-vars
 
     setPlanet(1);
 
+    let colorMode = Math.floor((Math.random() * 100) + 1);
+    if(colorMode == 1) { console.log( "COLOR" ); }
+
     let newMode = Math.floor((Math.random() * 7) + 1);
 
     if( newMode == 1 && (newMode != prevMode)) {
 
-      if(invertMode){
+      if(invertMode && (colorMode != 1)){
         uniforms.backgroundColor.value = new THREE.Color('#FFFFFF');
 
         uniforms.outerColor0.value = new THREE.Color('#000000');
@@ -308,7 +311,16 @@ function loop(time) { // eslint-disable-line no-unused-vars
 
         uniforms.innerColor0.value = new THREE.Color('#000000');
         uniforms.innerColor1.value = new THREE.Color('#000000');
-      } else {
+      } else if (colorMode == 1) {
+        uniforms.backgroundColor.value = new THREE.Color('#f4f5e6');
+
+        uniforms.outerColor0.value = new THREE.Color('#f91e0d');
+        uniforms.outerColor1.value = new THREE.Color('#f91e0d');
+
+        uniforms.innerColor0.value = new THREE.Color('#f91e0d');
+        uniforms.innerColor1.value = new THREE.Color('#f91e0d');
+      }
+      else {
         uniforms.backgroundColor.value = new THREE.Color('#000000');
 
         uniforms.outerColor0.value = new THREE.Color('#FFFFFF');
@@ -349,10 +361,10 @@ function loop(time) { // eslint-disable-line no-unused-vars
 
       camera.position.z = 15;
 
-      console.log("switch to 1 ("+newWaitValue+" seconds)");
+      // console.log("switch to 1 ("+newWaitValue+" seconds)");
     }
     else if( newMode == 2  && (newMode != prevMode)) {
-      if(invertMode){
+      if(invertMode && (colorMode != 1)){
         uniforms.backgroundColor.value = new THREE.Color('#FFFFFF');
 
         uniforms.outerColor0.value = new THREE.Color('#000000');
@@ -360,7 +372,16 @@ function loop(time) { // eslint-disable-line no-unused-vars
 
         uniforms.innerColor0.value = new THREE.Color('#000000');
         uniforms.innerColor1.value = new THREE.Color('#000000');
-      } else {
+      } else if (colorMode == 1) {
+        uniforms.backgroundColor.value = new THREE.Color('#f4f5e6');
+
+        uniforms.outerColor0.value = new THREE.Color('#f91e0d');
+        uniforms.outerColor1.value = new THREE.Color('#f91e0d');
+
+        uniforms.innerColor0.value = new THREE.Color('#f91e0d');
+        uniforms.innerColor1.value = new THREE.Color('#f91e0d');
+      }
+      else {
         uniforms.backgroundColor.value = new THREE.Color('#000000');
 
         uniforms.outerColor0.value = new THREE.Color('#FFFFFF');
@@ -400,10 +421,10 @@ function loop(time) { // eslint-disable-line no-unused-vars
       uniforms.brightnessValue.value = 0.03;
 
       camera.position.z = 8;
-      console.log("switch to 2 ("+newWaitValue+" seconds)");
+      // console.log("switch to 2 ("+newWaitValue+" seconds)");
     }
     else if( newMode == 3  && (newMode != prevMode)) {
-      if(invertMode){
+      if(invertMode && (colorMode != 1)){
         uniforms.backgroundColor.value = new THREE.Color('#FFFFFF');
 
         uniforms.outerColor0.value = new THREE.Color('#000000');
@@ -411,7 +432,17 @@ function loop(time) { // eslint-disable-line no-unused-vars
 
         uniforms.innerColor0.value = new THREE.Color('#000000');
         uniforms.innerColor1.value = new THREE.Color('#000000');
-      } else {
+      }
+      else if (colorMode == 1) {
+        uniforms.backgroundColor.value = new THREE.Color('#f4f5e6');
+
+        uniforms.outerColor0.value = new THREE.Color('#f91e0d');
+        uniforms.outerColor1.value = new THREE.Color('#f91e0d');
+
+        uniforms.innerColor0.value = new THREE.Color('#f91e0d');
+        uniforms.innerColor1.value = new THREE.Color('#f91e0d');
+      }
+      else {
         uniforms.backgroundColor.value = new THREE.Color('#000000');
 
         uniforms.outerColor0.value = new THREE.Color('#FFFFFF');
@@ -451,13 +482,13 @@ function loop(time) { // eslint-disable-line no-unused-vars
       uniforms.brightnessValue.value = 1.0;
 
       camera.position.z = 25;
-      console.log("switch to 3 ("+newWaitValue+" seconds)");
+      // console.log("switch to 3 ("+newWaitValue+" seconds)");
     }
     else if( newMode == 4  && (newMode != prevMode)) {
       let planetChooser = Math.floor((Math.random() * 10) + 1);
       if(planetChooser >= 5) { setPlanet(2); }
 
-      if(invertMode){
+      if(invertMode && (colorMode != 1)){
         uniforms.backgroundColor.value = new THREE.Color('#FFFFFF');
 
         uniforms.outerColor0.value = new THREE.Color('#000000');
@@ -465,7 +496,16 @@ function loop(time) { // eslint-disable-line no-unused-vars
 
         uniforms.innerColor0.value = new THREE.Color('#000000');
         uniforms.innerColor1.value = new THREE.Color('#000000');
-      } else {
+      } else if (colorMode == 1) {
+        uniforms.backgroundColor.value = new THREE.Color('#f4f5e6');
+
+        uniforms.outerColor0.value = new THREE.Color('#f91e0d');
+        uniforms.outerColor1.value = new THREE.Color('#f91e0d');
+
+        uniforms.innerColor0.value = new THREE.Color('#f91e0d');
+        uniforms.innerColor1.value = new THREE.Color('#f91e0d');
+      }
+      else {
         uniforms.backgroundColor.value = new THREE.Color('#000000');
 
         uniforms.outerColor0.value = new THREE.Color('#FFFFFF');
@@ -505,13 +545,13 @@ function loop(time) { // eslint-disable-line no-unused-vars
       uniforms.brightnessValue.value = 0.03;
 
       camera.position.z = 20;
-      console.log("switch to 4 ("+newWaitValue+" seconds)");
+      // console.log("switch to 4 ("+newWaitValue+" seconds)");
     }
     else if( newMode == 5  && (newMode != prevMode)) {
       let planetChooser = Math.floor((Math.random() * 10) + 1);
       if(planetChooser >= 5) { setPlanet(2); }
 
-      if(invertMode){
+      if(invertMode && (colorMode != 1)){
         uniforms.backgroundColor.value = new THREE.Color('#FFFFFF');
 
         uniforms.outerColor0.value = new THREE.Color('#000000');
@@ -519,7 +559,16 @@ function loop(time) { // eslint-disable-line no-unused-vars
 
         uniforms.innerColor0.value = new THREE.Color('#000000');
         uniforms.innerColor1.value = new THREE.Color('#000000');
-      } else {
+      } else if (colorMode == 1) {
+        uniforms.backgroundColor.value = new THREE.Color('#f4f5e6');
+
+        uniforms.outerColor0.value = new THREE.Color('#f91e0d');
+        uniforms.outerColor1.value = new THREE.Color('#f91e0d');
+
+        uniforms.innerColor0.value = new THREE.Color('#f91e0d');
+        uniforms.innerColor1.value = new THREE.Color('#f91e0d');
+      }
+      else {
         uniforms.backgroundColor.value = new THREE.Color('#000000');
 
         uniforms.outerColor0.value = new THREE.Color('#FFFFFF');
@@ -559,13 +608,13 @@ function loop(time) { // eslint-disable-line no-unused-vars
       uniforms.brightnessValue.value = 0.03;
 
       camera.position.z = 40;
-      console.log("switch to 5 ("+newWaitValue+" seconds)");
+      // console.log("switch to 5 ("+newWaitValue+" seconds)");
     }
     else if( newMode == 6  && (newMode != prevMode)) {
       let planetChooser = Math.floor((Math.random() * 10) + 1);
       if(planetChooser >= 5) { setPlanet(2); }
 
-      if(invertMode){
+      if(invertMode && (colorMode != 1)){
         uniforms.backgroundColor.value = new THREE.Color('#FFFFFF');
 
         uniforms.outerColor0.value = new THREE.Color('#000000');
@@ -573,7 +622,16 @@ function loop(time) { // eslint-disable-line no-unused-vars
 
         uniforms.innerColor0.value = new THREE.Color('#000000');
         uniforms.innerColor1.value = new THREE.Color('#000000');
-      } else {
+      } else if (colorMode == 1) {
+        uniforms.backgroundColor.value = new THREE.Color('#f4f5e6');
+
+        uniforms.outerColor0.value = new THREE.Color('#f91e0d');
+        uniforms.outerColor1.value = new THREE.Color('#f91e0d');
+
+        uniforms.innerColor0.value = new THREE.Color('#f91e0d');
+        uniforms.innerColor1.value = new THREE.Color('#f91e0d');
+      }
+      else {
         uniforms.backgroundColor.value = new THREE.Color('#000000');
 
         uniforms.outerColor0.value = new THREE.Color('#FFFFFF');
@@ -615,10 +673,10 @@ function loop(time) { // eslint-disable-line no-unused-vars
       camera.position.x = 2;
       camera.position.y = 0;
       camera.position.z = 38;
-      console.log("switch to 6 ("+newWaitValue+" seconds)");
+      // console.log("switch to 6 ("+newWaitValue+" seconds)");
     }
     else if( newMode == 7  && (newMode != prevMode)) {
-      if(invertMode){
+      if(invertMode && (colorMode != 1)){
         uniforms.backgroundColor.value = new THREE.Color('#FFFFFF');
 
         uniforms.outerColor0.value = new THREE.Color('#000000');
@@ -626,7 +684,16 @@ function loop(time) { // eslint-disable-line no-unused-vars
 
         uniforms.innerColor0.value = new THREE.Color('#000000');
         uniforms.innerColor1.value = new THREE.Color('#000000');
-      } else {
+      } else if (colorMode == 1) {
+        uniforms.backgroundColor.value = new THREE.Color('#f4f5e6');
+
+        uniforms.outerColor0.value = new THREE.Color('#f91e0d');
+        uniforms.outerColor1.value = new THREE.Color('#f91e0d');
+
+        uniforms.innerColor0.value = new THREE.Color('#f91e0d');
+        uniforms.innerColor1.value = new THREE.Color('#f91e0d');
+      }
+      else {
         uniforms.backgroundColor.value = new THREE.Color('#000000');
 
         uniforms.outerColor0.value = new THREE.Color('#FFFFFF');
@@ -668,7 +735,7 @@ function loop(time) { // eslint-disable-line no-unused-vars
       camera.position.x = 2;
       camera.position.y = 0;
       camera.position.z = 38;
-      console.log("switch to 7 ("+newWaitValue+" seconds)");
+      // console.log("switch to 7 ("+newWaitValue+" seconds)");
     }
 
     prevMode = newMode;
