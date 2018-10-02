@@ -18,6 +18,7 @@ let colorSpeed = 0.1;
 
 let renderer, scene, camera;
 let controls; // eslint-disable-line no-unused-vars
+let planet1, planet2;
 
 // let hue = 359;
 // let saturation = 89;
@@ -142,7 +143,8 @@ function setup() {
   scene.add(background);
 
   // const geometry = new THREE.OctahedronBufferGeometry(1.0, 1);
-  const geometry = new THREE.TetrahedronBufferGeometry(1.0, 1);
+  const geometry1 = new THREE.TetrahedronBufferGeometry(1.0, 1);
+  const geometry2 = new THREE.TetrahedronBufferGeometry(1.0, 2);
   // const geometry = new THREE.IcosahedronBufferGeometry(1.0, 5)
   const outerMaterial = new THREE.RawShaderMaterial({
     vertexShader,
@@ -181,20 +183,25 @@ function setup() {
 
     addThreeV3Slider(gui, planetGroup.position, `Planet ${i}`);
 
-    const planetInner = new THREE.Mesh(
-      geometry,
-      innerMaterial
-    );
-    planetInner.frustumCulled = false;
-    planetGroup.add(planetInner);
-
-    const planet = new THREE.Mesh(
-      geometry,
-      outerMaterial
-    );
-    planet.frustumCulled = false;
-    planetGroup.add(planet);
-
+    planet1 = new THREE.Group();
+    const planetInner1 = new THREE.Mesh(geometry1, innerMaterial);
+    planetInner1.frustumCulled = false;
+    planet1.add(planetInner1);
+    const planetOuter1 = new THREE.Mesh(geometry1, outerMaterial);
+    planetOuter1.frustumCulled = false;
+    planet1.add(planetOuter1);
+    planetGroup.add(planet1);
+    
+    planet2 = new THREE.Group();
+    const planetInner2 = new THREE.Mesh(geometry2, innerMaterial);
+    planetInner2.frustumCulled = false;
+    planet2.add(planetInner2);
+    const planetOuter2 = new THREE.Mesh(geometry2, outerMaterial);
+    planetOuter2.frustumCulled = false;
+    planet2.add(planetOuter2);
+    planetGroup.add(planet2);
+    planet2.visible = false;
+    
     scene.add(planetGroup);
   }
 
@@ -202,6 +209,16 @@ function setup() {
   // window.addEventListener("resize", onResize);
 
   clock.start();
+}
+
+function setPlanet(num) {
+  if (num === 1) {
+    planet1.visible = true;
+    planet2.visible = false;
+  } else if (num === 2) {
+    planet1.visible = false;
+    planet2.visible = true;
+  }
 }
 
 function onResize() {
