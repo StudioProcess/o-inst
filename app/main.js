@@ -264,19 +264,13 @@ function loop(time) { // eslint-disable-line no-unused-vars
   objectColor = new THREE.Color( "hsl("+parseInt(hue)+", "+parseInt(saturation)+"%, "+parseInt(lightness)+"%)" );
   // console.log( "hsl("+parseInt(hue)+", "+parseInt(saturation)+"%, "+parseInt(lightness)+"%)" );
 
-  // uniforms.outerColor0.value = objectColor;
-  // uniforms.outerColor1.value = objectColor;
-  //
-  // uniforms.innerColor0.value = objectColor;
-  // uniforms.innerColor1.value = objectColor;
-
   clock.getElapsedTime();
 
   if( clock.elapsedTime > (waitValue) ) {
 
     changeCount++;
-    // let newWaitValue = Math.floor((Math.random() * 40) + 10); // slow change
-    let newWaitValue = Math.floor((Math.random() * 2) + 1); // fast change
+    let newWaitValue = Math.floor((Math.random() * 40) + 10); // slow change
+    // let newWaitValue = Math.floor((Math.random() * 2) + 1); // fast change
     waitValue += newWaitValue;
 
     let invertChooser = Math.floor((Math.random() * 10) + 1);
