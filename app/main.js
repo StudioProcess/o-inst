@@ -32,7 +32,7 @@ let saturationIncrease = true;
 let lightnessIncrease = true;
 let prevMode = 0;
 
-let blackAndWhiteMode = true;
+let invertMode = true;
 
 let clock = new THREE.Clock();
 // let delta = clock.getDelta();
@@ -275,20 +275,28 @@ function loop(time) { // eslint-disable-line no-unused-vars
   if( clock.elapsedTime > (waitValue) ) {
 
     changeCount++;
-    let newWaitValue = Math.floor((Math.random() * 40) + 10);
-    // let newWaitValue = Math.floor((Math.random() * 2) + 1);
+    // let newWaitValue = Math.floor((Math.random() * 40) + 10); // slow change
+    let newWaitValue = Math.floor((Math.random() * 2) + 1); // fast change
     waitValue += newWaitValue;
 
-    let bwChooser = Math.floor((Math.random() * 10) + 1);
-    if(bwChooser >= 6) { blackAndWhiteMode = true; }
-    else { blackAndWhiteMode = false; }
+    let invertChooser = Math.floor((Math.random() * 10) + 1);
+    if(invertChooser >= 5) { invertMode = true; }
+    else { invertMode = false; }
 
     let newMode = Math.floor((Math.random() * 6) + 1);
 
     if( newMode == 1 && (newMode != prevMode)) {
 
 
-      if(blackAndWhiteMode){
+      if(invertMode){
+        uniforms.backgroundColor.value = new THREE.Color('#FFFFFF');
+
+        uniforms.outerColor0.value = new THREE.Color('#000000');
+        uniforms.outerColor1.value = new THREE.Color('#000000');
+
+        uniforms.innerColor0.value = new THREE.Color('#000000');
+        uniforms.innerColor1.value = new THREE.Color('#000000');
+      } else {
         uniforms.backgroundColor.value = new THREE.Color('#000000');
 
         uniforms.outerColor0.value = new THREE.Color('#FFFFFF');
@@ -296,20 +304,6 @@ function loop(time) { // eslint-disable-line no-unused-vars
 
         uniforms.innerColor0.value = new THREE.Color('#FFFFFF');
         uniforms.innerColor1.value = new THREE.Color('#FFFFFF');
-      } else {
-        uniforms.backgroundColor.value = new THREE.Color('#1f294b');
-
-        // uniforms.outerColor0.value = [0.0, 0.0, 0.0];
-        // uniforms.outerColor1.value = [0.0, 0.0, 0.0];
-        //
-        // uniforms.innerColor0.value = [0.0, 0.0, 0.0];
-        // uniforms.innerColor1.value = [0.0, 0.0, 0.0];
-
-        uniforms.outerColor0.value = objectColor;
-        uniforms.outerColor1.value = objectColor;
-
-        uniforms.innerColor0.value = objectColor;
-        uniforms.innerColor1.value = objectColor;
       }
 
       uniforms.radius.value = 8.7;
@@ -346,7 +340,15 @@ function loop(time) { // eslint-disable-line no-unused-vars
       console.log("switch to 1 ("+newWaitValue+" seconds)");
     }
     else if( newMode == 2  && (newMode != prevMode)) {
-      if(blackAndWhiteMode){
+      if(invertMode){
+        uniforms.backgroundColor.value = new THREE.Color('#FFFFFF');
+
+        uniforms.outerColor0.value = new THREE.Color('#000000');
+        uniforms.outerColor1.value = new THREE.Color('#000000');
+
+        uniforms.innerColor0.value = new THREE.Color('#000000');
+        uniforms.innerColor1.value = new THREE.Color('#000000');
+      } else {
         uniforms.backgroundColor.value = new THREE.Color('#000000');
 
         uniforms.outerColor0.value = new THREE.Color('#FFFFFF');
@@ -354,20 +356,6 @@ function loop(time) { // eslint-disable-line no-unused-vars
 
         uniforms.innerColor0.value = new THREE.Color('#FFFFFF');
         uniforms.innerColor1.value = new THREE.Color('#FFFFFF');
-      } else {
-        uniforms.backgroundColor.value = new THREE.Color('#1f294b');
-
-        // uniforms.outerColor0.value = new THREE.Color('#e31a1c');
-        // uniforms.outerColor1.value = [1.0, 0.0, 0.0];
-        //
-        // uniforms.innerColor0.value = [1.0, 1.0, 1.0];
-        // uniforms.innerColor1.value = [1.0, 1.0, 1.0];
-
-        uniforms.outerColor0.value = objectColor;
-        uniforms.outerColor1.value = objectColor;
-
-        uniforms.innerColor0.value = objectColor;
-        uniforms.innerColor1.value = objectColor;
       }
 
       uniforms.radius.value = 7.9;
@@ -403,7 +391,15 @@ function loop(time) { // eslint-disable-line no-unused-vars
       console.log("switch to 2 ("+newWaitValue+" seconds)");
     }
     else if( newMode == 3  && (newMode != prevMode)) {
-      if(blackAndWhiteMode){
+      if(invertMode){
+        uniforms.backgroundColor.value = new THREE.Color('#FFFFFF');
+
+        uniforms.outerColor0.value = new THREE.Color('#000000');
+        uniforms.outerColor1.value = new THREE.Color('#000000');
+
+        uniforms.innerColor0.value = new THREE.Color('#000000');
+        uniforms.innerColor1.value = new THREE.Color('#000000');
+      } else {
         uniforms.backgroundColor.value = new THREE.Color('#000000');
 
         uniforms.outerColor0.value = new THREE.Color('#FFFFFF');
@@ -411,14 +407,6 @@ function loop(time) { // eslint-disable-line no-unused-vars
 
         uniforms.innerColor0.value = new THREE.Color('#FFFFFF');
         uniforms.innerColor1.value = new THREE.Color('#FFFFFF');
-      } else {
-        uniforms.backgroundColor.value = [0.0, 0.0, 0.0];
-
-        uniforms.outerColor0.value = objectColor;
-        uniforms.outerColor1.value = objectColor;
-
-        uniforms.innerColor0.value = objectColor;
-        uniforms.innerColor1.value = objectColor;
       }
 
       uniforms.radius.value = 20.0;
@@ -454,7 +442,15 @@ function loop(time) { // eslint-disable-line no-unused-vars
       console.log("switch to 3 ("+newWaitValue+" seconds)");
     }
     else if( newMode == 4  && (newMode != prevMode)) {
-      if(blackAndWhiteMode){
+      if(invertMode){
+        uniforms.backgroundColor.value = new THREE.Color('#FFFFFF');
+
+        uniforms.outerColor0.value = new THREE.Color('#000000');
+        uniforms.outerColor1.value = new THREE.Color('#000000');
+
+        uniforms.innerColor0.value = new THREE.Color('#000000');
+        uniforms.innerColor1.value = new THREE.Color('#000000');
+      } else {
         uniforms.backgroundColor.value = new THREE.Color('#000000');
 
         uniforms.outerColor0.value = new THREE.Color('#FFFFFF');
@@ -462,20 +458,6 @@ function loop(time) { // eslint-disable-line no-unused-vars
 
         uniforms.innerColor0.value = new THREE.Color('#FFFFFF');
         uniforms.innerColor1.value = new THREE.Color('#FFFFFF');
-      } else {
-        uniforms.backgroundColor.value = new THREE.Color('#f2c506');
-
-        // uniforms.outerColor0.value = new THREE.Color('#0d3af9');
-        // uniforms.outerColor1.value = [1.0, 1.0, 1.0];
-        //
-        // uniforms.innerColor0.value = [1.0, 1.0, 1.0];
-        // uniforms.innerColor1.value = [1.0, 1.0, 1.0];
-
-        uniforms.outerColor0.value = objectColor;
-        uniforms.outerColor1.value = objectColor;
-
-        uniforms.innerColor0.value = objectColor;
-        uniforms.innerColor1.value = objectColor;
       }
 
       uniforms.radius.value = 7.9;
@@ -511,7 +493,15 @@ function loop(time) { // eslint-disable-line no-unused-vars
       console.log("switch to 4 ("+newWaitValue+" seconds)");
     }
     else if( newMode == 5  && (newMode != prevMode)) {
-      if(blackAndWhiteMode){
+      if(invertMode){
+        uniforms.backgroundColor.value = new THREE.Color('#FFFFFF');
+
+        uniforms.outerColor0.value = new THREE.Color('#000000');
+        uniforms.outerColor1.value = new THREE.Color('#000000');
+
+        uniforms.innerColor0.value = new THREE.Color('#000000');
+        uniforms.innerColor1.value = new THREE.Color('#000000');
+      } else {
         uniforms.backgroundColor.value = new THREE.Color('#000000');
 
         uniforms.outerColor0.value = new THREE.Color('#FFFFFF');
@@ -519,21 +509,6 @@ function loop(time) { // eslint-disable-line no-unused-vars
 
         uniforms.innerColor0.value = new THREE.Color('#FFFFFF');
         uniforms.innerColor1.value = new THREE.Color('#FFFFFF');
-      } else {
-
-        uniforms.backgroundColor.value = new THREE.Color('#131525');
-
-        // uniforms.outerColor0.value = [1.0, 0.0, 0.0];
-        // uniforms.outerColor1.value = [0.8, 0.65, 1.0];
-        //
-        // uniforms.innerColor0.value = [1.0, 1.0, 1.0];
-        // uniforms.innerColor1.value = [1.0, 1.0, 1.0];
-
-        uniforms.outerColor0.value = objectColor;
-        uniforms.outerColor1.value = objectColor;
-
-        uniforms.innerColor0.value = objectColor;
-        uniforms.innerColor1.value = objectColor;
       }
 
       uniforms.radius.value = 17.9;
@@ -569,7 +544,15 @@ function loop(time) { // eslint-disable-line no-unused-vars
       console.log("switch to 5 ("+newWaitValue+" seconds)");
     }
     else if( newMode == 6  && (newMode != prevMode)) {
-      if(blackAndWhiteMode){
+      if(invertMode){
+        uniforms.backgroundColor.value = new THREE.Color('#FFFFFF');
+
+        uniforms.outerColor0.value = new THREE.Color('#000000');
+        uniforms.outerColor1.value = new THREE.Color('#000000');
+
+        uniforms.innerColor0.value = new THREE.Color('#000000');
+        uniforms.innerColor1.value = new THREE.Color('#000000');
+      } else {
         uniforms.backgroundColor.value = new THREE.Color('#000000');
 
         uniforms.outerColor0.value = new THREE.Color('#FFFFFF');
@@ -577,21 +560,6 @@ function loop(time) { // eslint-disable-line no-unused-vars
 
         uniforms.innerColor0.value = new THREE.Color('#FFFFFF');
         uniforms.innerColor1.value = new THREE.Color('#FFFFFF');
-      } else {
-
-        uniforms.backgroundColor.value = new THREE.Color('#131525');
-
-        // uniforms.outerColor0.value = [1.0, 1.0, 1.0];
-        // uniforms.outerColor1.value = [1.0, 1.0, 1.0];
-        //
-        // uniforms.innerColor0.value = [1.0, 1.0, 1.0];
-        // uniforms.innerColor1.value = [0.0, 0.0, 0.0];
-
-        uniforms.outerColor0.value = objectColor;
-        uniforms.outerColor1.value = objectColor;
-
-        uniforms.innerColor0.value = objectColor;
-        uniforms.innerColor1.value = objectColor;
       }
 
       uniforms.radius.value = 15.1;
@@ -632,63 +600,6 @@ function loop(time) { // eslint-disable-line no-unused-vars
     prevMode = newMode;
   }
 
-  // // const delta = Math.min(1.0 / 20.0, clock.getDelta());
-  // let currentSeconds = parseInt(clock.getElapsedTime());
-  //
-  // if((clock.startTime - clock.oldTime) >= 3) {
-  //   newMode = Math.floor((Math.random() * 6) + 1);
-  // } else {
-  //   if( newMode == 1 ) { console.log("switch to 1"); }
-  //   else if( newMode == 2 ) { console.log("switch to 2"); }
-  //   else if( newMode == 3 ) { console.log("switch to 3"); }
-  //   else if( newMode == 4 ) { console.log("switch to 4"); }
-  //   else if( newMode == 5 ) { console.log("switch to 5"); }
-  //   else if( newMode == 6 ) { console.log("switch to 6"); }
-  //   else if( newMode == 7 ) { console.log("switch to 7"); }
-  //   // delta = 0;
-  //   console.log("2");
-  //   // delta = clock.getElapsedTime();
-  // }
-  // if(clock.getElapsedTime()%10 == 10) {
-  //   console.log("hallo");
-  // }
-  // if(clock.oldTime)
-  // // console.log(clock.getElapsedTime()%10);
-
-
-
-  // let currentSeconds = parseInt(clock.getElapsedTime());
-  // const delta = Math.min(1.0 / 20.0, clock.getDelta());
-
-  // if( (currentSeconds%10) < 1 ) {
-  //   // clock.getElapsedTime();
-  //   console.log( clock.oldTime );
-  //   let newMode = Math.floor((Math.random() * 6) + 1);
-  //   if( newMode == 1 ) { console.log("switch to 1"); break; }
-  //   else if( newMode == 2 ) { console.log("switch to 2"); break; }
-  //   else if( newMode == 3 ) { console.log("switch to 3"); break; }
-  //   else if( newMode == 4 ) { console.log("switch to 4"); break; }
-  //   else if( newMode == 5 ) { console.log("switch to 5"); break; }
-  //   else if( newMode == 6 ) { console.log("switch to 6"); break; }
-  //   else if( newMode == 7 ) { console.log("switch to 7"); break; }
-  //
-  // }
-  // if(currentSeconds%wait == 0) { // trigger mode change
-  //   if(switch) {
-  //     switch = false;
-  //     let newMode = Math.floor((Math.random() * 6) + 1);
-  //     if( newMode == 1 ) { console.log("switch to 1") }
-  //     else if( newMode == 2 ) { console.log("switch to 2") }
-  //     else if( newMode == 3 ) { console.log("switch to 3") }
-  //     else if( newMode == 4 ) { console.log("switch to 4") }
-  //     else if( newMode == 5 ) { console.log("switch to 5") }
-  //     else if( newMode == 6 ) { console.log("switch to 6") }
-  //     else if( newMode == 7 ) { console.log("switch to 7") }
-  //   } else {
-  //     waited += currentSeconds%wait
-  //   }
-  // }
-
   if (!RENDERING) {
     uniforms.time.value += 1/30;// delta;
   }
@@ -725,323 +636,4 @@ document.addEventListener('keydown', e => {
   else if (e.key == 'v') {
     capture.startstop( { duration:10 } ); // record 10 seconds
   }
-  // else if (e.key == '1'){
-  //
-  //   // scene.remove( scene.children );
-  //
-  //   // const geometry = new THREE.IcosahedronBufferGeometry(1.0, 1);
-  //   // const outerMaterial = new THREE.RawShaderMaterial({
-  //   //   vertexShader,
-  //   //   fragmentShader,
-  //   //   uniforms,
-  //   //
-  //   //   side: THREE.DoubleSide,
-  //   //   // wireframe: true,
-  //   //   transparent: true,
-  //   //   // blending: THREE.AdditiveBlending,
-  //   //   depthTest: false,
-  //   //   depthWrite: false,
-  //   // });
-  //   //
-  //   // const innerMaterial = new THREE.RawShaderMaterial({
-  //   //   vertexShader,
-  //   //   fragmentShader,
-  //   //   uniforms,
-  //   //   side: THREE.DoubleSide,
-  //   //   // wireframe: true,
-  //   //   transparent: true,
-  //   //   // blending: THREE.AdditiveBlending,
-  //   //   depthTest: false,
-  //   //   depthWrite: false,
-  //   //   defines: {
-  //   //     INNER: true
-  //   //   }
-  //   // });
-  //   //
-  //   // for (let i = 0, l = planetPositions.length; i < l; i++) {
-  //   //   const planetGroup = new THREE.Group();
-  //   //
-  //   //   planetGroup.position.x = planetPositions[i].x;
-  //   //   planetGroup.position.y = planetPositions[i].y;
-  //   //   planetGroup.position.z = planetPositions[i].z;
-  //   //
-  //   //   // addThreeV3Slider(gui, planetGroup.position, `Planet ${i}`);
-  //   //
-  //   //   const planetInner = new THREE.Mesh(
-  //   //     geometry,
-  //   //     innerMaterial
-  //   //   );
-  //   //   planetInner.frustumCulled = false;
-  //   //   planetGroup.add(planetInner);
-  //   //
-  //   //   const planet = new THREE.Mesh(
-  //   //     geometry,
-  //   //     outerMaterial
-  //   //   );
-  //   //   planet.frustumCulled = false;
-  //   //   planetGroup.add(planet);
-  //   //
-  //   //   scene.add(planetGroup);
-  //   // }
-  //
-  //   uniforms.backgroundColor.value = new THREE.Color('#1f294b');
-  //
-  //   uniforms.outerColor0.value = [0.0, 0.0, 0.0];
-  //   uniforms.outerColor1.value = [0.0, 0.0, 0.0];
-  //
-  //   uniforms.innerColor0.value = [0.0, 0.0, 0.0];
-  //   uniforms.innerColor1.value = [0.0, 0.0, 0.0];
-  //
-  //   uniforms.radius.value = 8.7;
-  //   uniforms.displacementDistance.value = 10;
-  //
-  //   uniforms.innerRadius.value = 8.65;
-  //   uniforms.innerDisplacementDistance.value = 6.0;
-  //
-  //   uniforms.noiseSpeed.value = 0.001;
-  //   uniforms.noiseScale.value = 10.0;
-  //   uniforms.noiseMinValue.value = -1.0;
-  //
-  //   uniforms.lineStepSize.value = 0.01;
-  //   uniforms.lineWeight.value = 0.001;
-  //   uniforms.lineSmoothing.value = 6.0;
-  //
-  //   uniforms.facingCull.value = -0.5;
-  //   uniforms.facingCullWidth.value = 0.5;
-  //
-  //   uniforms.outerOpacity.value = 1.0;
-  //   uniforms.innerOpacity.value = 1.0;
-  //
-  //   uniforms.rotationAxis.value = [0.2, 1.0, 1.0];
-  //   uniforms.rotationSpeed.value = -0.5;
-  //
-  //   uniforms.minDistance.value = 10.0;
-  //   uniforms.maxDistance.value = 200.0;
-  //
-  //   uniforms.saturationValue.value = 0.25;
-  //   uniforms.brightnessValue.value = 0.03;
-  //
-  //   camera.position.z = 15;
-  //
-  // }
-  // else if (e.key == '2') {
-  //
-  //   // const geometry = new THREE.IcosahedronBufferGeometry(1.0, 5);
-  //
-  //   uniforms.backgroundColor.value = new THREE.Color('#1f294b');
-  //
-  //   uniforms.outerColor0.value = new THREE.Color('#e31a1c');
-  //   uniforms.outerColor1.value = [1.0, 0.0, 0.0];
-  //
-  //   uniforms.innerColor0.value = [1.0, 1.0, 1.0];
-  //   uniforms.innerColor1.value = [1.0, 1.0, 1.0];
-  //
-  //   uniforms.radius.value = 7.9;
-  //   uniforms.displacementDistance.value = 0.77;
-  //
-  //   uniforms.innerRadius.value = -2.0;
-  //   uniforms.innerDisplacementDistance.value = 0.34;
-  //
-  //   uniforms.noiseSpeed.value = 0.01;
-  //   uniforms.noiseScale.value = 19.26;
-  //   uniforms.noiseMinValue.value = -0.605;
-  //
-  //   uniforms.lineStepSize.value = 0.01;
-  //   uniforms.lineWeight.value = 0.003;
-  //   uniforms.lineSmoothing.value = 400.0;
-  //
-  //   uniforms.facingCull.value = -0.44;
-  //   uniforms.facingCullWidth.value = 0.498;
-  //
-  //   uniforms.outerOpacity.value = 1.0;
-  //   uniforms.innerOpacity.value = 0.0;
-  //
-  //   uniforms.rotationAxis.value = [0.4, 1.0, 0.0];
-  //   uniforms.rotationSpeed.value = -0.5;
-  //
-  //   uniforms.minDistance.value = 100.0;
-  //   uniforms.maxDistance.value = 200.0;
-  //
-  //   uniforms.saturationValue.value = 1.0;
-  //   uniforms.brightnessValue.value = 0.03;
-  //
-  //   camera.position.z = 8;
-  // }
-  // else if (e.key == '3') {
-  //   uniforms.backgroundColor.value = [0.0, 0.0, 0.0];
-  //
-  //   // uniforms.outerColor0.value = [1.0, 1.0, 1.0];
-  //   // uniforms.outerColor1.value = [1.0, 1.0, 1.0];
-  //   //
-  //   // uniforms.innerColor0.value = [1.0, 1.0, 1.0];
-  //   // uniforms.innerColor1.value = [1.0, 1.0, 1.0];
-  //
-  //   uniforms.outerColor0.value = objectColor;
-  //   uniforms.outerColor1.value = objectColor;
-  //
-  //   uniforms.innerColor0.value = objectColor;
-  //   uniforms.innerColor1.value = objectColor;
-  //
-  //   uniforms.radius.value = 20.0;
-  //   uniforms.displacementDistance.value = 1.12;
-  //
-  //   uniforms.innerRadius.value = 20.0;
-  //   uniforms.innerDisplacementDistance.value = 3.76;
-  //
-  //   // uniforms.noiseSpeed.value = 0.03;
-  //   // uniforms.noiseScale.value = 1.85;
-  //   // uniforms.noiseMinValue.value = -1.0;
-  //
-  //   uniforms.noiseSpeed.value = 0.001; // 0.03
-  //   uniforms.noiseScale.value = 10.0; //  1.85;
-  //   uniforms.noiseMinValue.value = -1.0;
-  //
-  //   uniforms.lineStepSize.value = 0.01;
-  //   uniforms.lineWeight.value = 0.002;
-  //   uniforms.lineSmoothing.value = 150.0;
-  //
-  //   uniforms.facingCull.value = -1.0;
-  //   uniforms.facingCullWidth.value = 0.0;
-  //
-  //   uniforms.outerOpacity.value = 1.0;
-  //   uniforms.innerOpacity.value = 1.0;
-  //
-  //   uniforms.rotationAxis.value = [0.4, 1.0, 0.0];
-  //   uniforms.rotationSpeed.value = -0.5;
-  //
-  //   uniforms.minDistance.value = 100.0;
-  //   uniforms.maxDistance.value = 500.0;
-  //
-  //   uniforms.saturationValue.value = 1.0;
-  //   uniforms.brightnessValue.value = 1.0;
-  //
-  //   camera.position.z = 25;
-  // }
-  // else if (e.key == '4') {
-  //   // uniforms.backgroundColor.value = [0.0, 0.0, 0.0];
-  //
-  //   // uniforms.outerColor0.value = [1.0, 1.0, 1.0];
-  //   // uniforms.outerColor1.value = [1.0, 1.0, 1.0];
-  //
-  //   uniforms.backgroundColor.value = new THREE.Color('#f2c506');
-  //
-  //   uniforms.outerColor0.value = new THREE.Color('#0d3af9');
-  //   uniforms.outerColor1.value = [1.0, 1.0, 1.0];
-  //
-  //   uniforms.innerColor0.value = [1.0, 1.0, 1.0];
-  //   uniforms.innerColor1.value = [1.0, 1.0, 1.0];
-  //
-  //   uniforms.radius.value = 7.9;
-  //   uniforms.displacementDistance.value = 0.77;
-  //
-  //   uniforms.innerRadius.value = 7.9;
-  //   uniforms.innerDisplacementDistance.value = 0.34;
-  //
-  //   uniforms.noiseSpeed.value = 0.01;
-  //   uniforms.noiseScale.value = 19.26;
-  //   uniforms.noiseMinValue.value = -0.605;
-  //
-  //   uniforms.lineStepSize.value = 0.22;
-  //   uniforms.lineWeight.value = 0.011;
-  //   uniforms.lineSmoothing.value = 190.0;
-  //
-  //   uniforms.facingCull.value = -0.44;
-  //   uniforms.facingCullWidth.value = 0.498;
-  //
-  //   uniforms.outerOpacity.value = 1.0;
-  //   uniforms.innerOpacity.value = 0.0;
-  //
-  //   uniforms.rotationAxis.value = [0.4, 0.1, 1.0];
-  //   uniforms.rotationSpeed.value = -0.5;
-  //
-  //   uniforms.minDistance.value = 0.0;
-  //   uniforms.maxDistance.value = 500.0;
-  //
-  //   uniforms.saturationValue.value = 0.25;
-  //   uniforms.brightnessValue.value = 0.03;
-  //
-  //   camera.position.z = 20;
-  // }
-  // else if (e.key == '5') {
-  //   uniforms.backgroundColor.value = new THREE.Color('#131525');
-  //
-  //   uniforms.outerColor0.value = [1.0, 0.0, 0.0];
-  //   uniforms.outerColor1.value = [0.8, 0.65, 1.0];
-  //
-  //   uniforms.innerColor0.value = [1.0, 1.0, 1.0];
-  //   uniforms.innerColor1.value = [1.0, 1.0, 1.0];
-  //
-  //   uniforms.radius.value = 17.9;
-  //   uniforms.displacementDistance.value = 1.77;
-  //
-  //   uniforms.innerRadius.value = 7.9;
-  //   uniforms.innerDisplacementDistance.value = 0.34;
-  //
-  //   uniforms.noiseSpeed.value = 0.001;
-  //   uniforms.noiseScale.value = 190.26;
-  //   uniforms.noiseMinValue.value = -0.605;
-  //
-  //   uniforms.lineStepSize.value = 0.22;
-  //   uniforms.lineWeight.value = 0.011;
-  //   uniforms.lineSmoothing.value = 190.0;
-  //
-  //   uniforms.facingCull.value = -0.44;
-  //   uniforms.facingCullWidth.value = 0.498;
-  //
-  //   uniforms.outerOpacity.value = 1.0;
-  //   uniforms.innerOpacity.value = 0.0;
-  //
-  //   uniforms.rotationAxis.value = [1.0, 1.0, 1.0];
-  //   uniforms.rotationSpeed.value = -0.5;
-  //
-  //   uniforms.minDistance.value = 0.0;
-  //   uniforms.maxDistance.value = 500.0;
-  //
-  //   uniforms.saturationValue.value = 0.25;
-  //   uniforms.brightnessValue.value = 0.03;
-  //
-  //   camera.position.z = 40;
-  // }
-  // else if (e.key == '6') {
-  //   uniforms.backgroundColor.value = new THREE.Color('#131525');
-  //
-  //   uniforms.outerColor0.value = [1.0, 1.0, 1.0];
-  //   uniforms.outerColor1.value = [1.0, 1.0, 1.0];
-  //
-  //   uniforms.innerColor0.value = [1.0, 1.0, 1.0];
-  //   uniforms.innerColor1.value = [0.0, 0.0, 0.0];
-  //
-  //   uniforms.radius.value = 15.1;
-  //   uniforms.displacementDistance.value = 12.56;
-  //
-  //   uniforms.innerRadius.value = 6.8;
-  //   uniforms.innerDisplacementDistance.value = 0.34;
-  //
-  //   uniforms.noiseSpeed.value = 0.0001;
-  //   uniforms.noiseScale.value = 10.00;
-  //   uniforms.noiseMinValue.value = -0.605;
-  //
-  //   uniforms.lineStepSize.value = 0.22;
-  //   uniforms.lineWeight.value = 0.011;
-  //   uniforms.lineSmoothing.value = 50.0;
-  //
-  //   uniforms.facingCull.value = -0.44;
-  //   uniforms.facingCullWidth.value = 0.498;
-  //
-  //   uniforms.outerOpacity.value = 1.0;
-  //   uniforms.innerOpacity.value = 0.0;
-  //
-  //   uniforms.rotationAxis.value = [-1.0, -1.0, 1.0];
-  //   uniforms.rotationSpeed.value = -0.5;
-  //
-  //   uniforms.minDistance.value = 0.0;
-  //   uniforms.maxDistance.value = 500.0;
-  //
-  //   uniforms.saturationValue.value = 0.25;
-  //   uniforms.brightnessValue.value = 0.03;
-  //
-  //   camera.position.x = 2;
-  //   camera.position.y = 0;
-  //   camera.position.z = 38;
-  // }
 });
