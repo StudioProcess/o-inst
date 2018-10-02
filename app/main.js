@@ -30,6 +30,7 @@ let objectColor = new THREE.Color( "hsl("+hue+", "+saturation+"%, "+lightness+"%
 let hueIncrease = true;
 let saturationIncrease = true;
 let lightnessIncrease = true;
+let prevMode = 0;
 
 let blackAndWhiteMode = true;
 
@@ -261,7 +262,7 @@ function loop(time) { // eslint-disable-line no-unused-vars
   // if(lightness >= 100) { lightness=50; }
 
   objectColor = new THREE.Color( "hsl("+parseInt(hue)+", "+parseInt(saturation)+"%, "+parseInt(lightness)+"%)" );
-  console.log( "hsl("+parseInt(hue)+", "+parseInt(saturation)+"%, "+parseInt(lightness)+"%)" );
+  // console.log( "hsl("+parseInt(hue)+", "+parseInt(saturation)+"%, "+parseInt(lightness)+"%)" );
 
   // uniforms.outerColor0.value = objectColor;
   // uniforms.outerColor1.value = objectColor;
@@ -282,7 +283,8 @@ function loop(time) { // eslint-disable-line no-unused-vars
     else { blackAndWhiteMode = false; }
 
     let newMode = Math.floor((Math.random() * 6) + 1);
-    if( newMode == 1 ) {
+
+    if( newMode == 1 && (newMode != prevMode)) {
 
 
       if(blackAndWhiteMode){
@@ -342,7 +344,7 @@ function loop(time) { // eslint-disable-line no-unused-vars
 
       console.log("switch to 1 ("+newWaitValue+" seconds)");
     }
-    else if( newMode == 2 ) {
+    else if( newMode == 2  && (newMode != prevMode)) {
       if(blackAndWhiteMode){
         uniforms.backgroundColor.value = new THREE.Color('#000000');
 
@@ -399,7 +401,7 @@ function loop(time) { // eslint-disable-line no-unused-vars
       camera.position.z = 8;
       console.log("switch to 2 ("+newWaitValue+" seconds)");
     }
-    else if( newMode == 3 ) {
+    else if( newMode == 3  && (newMode != prevMode)) {
       if(blackAndWhiteMode){
         uniforms.backgroundColor.value = new THREE.Color('#000000');
 
@@ -429,7 +431,7 @@ function loop(time) { // eslint-disable-line no-unused-vars
       uniforms.noiseMinValue.value = -1.0;
 
       uniforms.lineStepSize.value = 0.01;
-      uniforms.lineWeight.value = 0.002;
+      uniforms.lineWeight.value = 0.001;
       uniforms.lineSmoothing.value = 20.0;
 
       uniforms.facingCull.value = -1.0;
@@ -450,7 +452,7 @@ function loop(time) { // eslint-disable-line no-unused-vars
       camera.position.z = 25;
       console.log("switch to 3 ("+newWaitValue+" seconds)");
     }
-    else if( newMode == 4 ) {
+    else if( newMode == 4  && (newMode != prevMode)) {
       if(blackAndWhiteMode){
         uniforms.backgroundColor.value = new THREE.Color('#000000');
 
@@ -507,7 +509,7 @@ function loop(time) { // eslint-disable-line no-unused-vars
       camera.position.z = 20;
       console.log("switch to 4 ("+newWaitValue+" seconds)");
     }
-    else if( newMode == 5 ) {
+    else if( newMode == 5  && (newMode != prevMode)) {
       if(blackAndWhiteMode){
         uniforms.backgroundColor.value = new THREE.Color('#000000');
 
@@ -565,7 +567,7 @@ function loop(time) { // eslint-disable-line no-unused-vars
       camera.position.z = 40;
       console.log("switch to 5 ("+newWaitValue+" seconds)");
     }
-    else if( newMode == 6 ) {
+    else if( newMode == 6  && (newMode != prevMode)) {
       if(blackAndWhiteMode){
         uniforms.backgroundColor.value = new THREE.Color('#000000');
 
@@ -625,6 +627,8 @@ function loop(time) { // eslint-disable-line no-unused-vars
       camera.position.z = 38;
       console.log("switch to 6 ("+newWaitValue+" seconds)");
     }
+
+    prevMode = newMode;
   }
 
   // // const delta = Math.min(1.0 / 20.0, clock.getDelta());
