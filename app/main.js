@@ -43,7 +43,7 @@ let clock = new THREE.Clock();
 // let currentTime = startTime;
 // let lastChangedTime = currentTime;
 // let elapsedTime;
-let waitValue = 5;
+let waitValue = 1;
 let changeCount = 0;
 
 let gui;
@@ -287,7 +287,7 @@ function loop(time) { // eslint-disable-line no-unused-vars
 
     changeCount++;
     let newWaitValue = Math.floor((Math.random() * 40) + 15); // slow change
-    // let newWaitValue = Math.floor((Math.random() * 1)); // fast change
+    // let newWaitValue = Math.floor((Math.random() * 4) + 1); // fast change
     waitValue += newWaitValue;
 
     let invertChooser = Math.floor((Math.random() * 10) + 1);
@@ -578,27 +578,27 @@ function loop(time) { // eslint-disable-line no-unused-vars
         uniforms.innerColor1.value = new THREE.Color('#FFFFFF');
       }
 
-      uniforms.radius.value = 17.9;
+      uniforms.radius.value = 30.9;
       uniforms.displacementDistance.value = 1.77;
 
-      uniforms.innerRadius.value = 7.9;
+      uniforms.innerRadius.value = 30.9; // 7.9
       uniforms.innerDisplacementDistance.value = 0.34;
 
       uniforms.noiseSpeed.value = 0.001;
-      uniforms.noiseScale.value = 190.26;
+      uniforms.noiseScale.value = 690.26; // 190.26
       uniforms.noiseMinValue.value = -0.605;
 
-      uniforms.lineStepSize.value = 0.22;
-      uniforms.lineWeight.value = 0.011;
+      uniforms.lineStepSize.value = 0.12; // 0.22
+      uniforms.lineWeight.value = 0.005; // 0.011
       uniforms.lineSmoothing.value = 190.0;
 
       uniforms.facingCull.value = -0.44;
       uniforms.facingCullWidth.value = 0.498;
 
       uniforms.outerOpacity.value = 1.0;
-      uniforms.innerOpacity.value = 0.0;
+      uniforms.innerOpacity.value = 1.0; // 0.0
 
-      uniforms.rotationAxis.value = [1.0, 1.0, 1.0];
+      uniforms.rotationAxis.value = [1.0, -0.2, 1.0];
       uniforms.rotationSpeed.value = -0.5;
 
       uniforms.minDistance.value = 0.0;
@@ -710,11 +710,11 @@ function loop(time) { // eslint-disable-line no-unused-vars
       uniforms.innerDisplacementDistance.value = 6.0;
 
       uniforms.noiseSpeed.value = 0.0001;
-      uniforms.noiseScale.value = 100.0;
+      uniforms.noiseScale.value = 400.0; //100.0
       uniforms.noiseMinValue.value = -1.0;
 
-      uniforms.lineStepSize.value = 0.03;
-      uniforms.lineWeight.value = 0.001;
+      uniforms.lineStepSize.value = 0.13; // 0.03
+      uniforms.lineWeight.value = 0.011; // 0.001
       uniforms.lineSmoothing.value = 20.0;
 
       uniforms.facingCull.value = -0.5;
