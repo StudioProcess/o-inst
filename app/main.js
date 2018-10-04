@@ -126,6 +126,7 @@ function setup() {
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera( 25, W / H, 0.01, 1000 );
   controls = new THREE.OrbitControls( camera, renderer.domElement );
+  controls.enabled = false;
   camera.position.z = 45;
 
   const background = new THREE.Mesh(
@@ -775,6 +776,8 @@ document.addEventListener('dblclick', e => {
 });
 
 document.addEventListener('keydown', e => {
+  console.log(e.key);
+  
   if (e.key == ' ') {
     console.log('space');
     RENDERING = !RENDERING;
@@ -793,6 +796,9 @@ document.addEventListener('keydown', e => {
       if (gui.closed) gui.open();
       else gui.close();
     }
+  }
+  else if (e.key == 'Tab') { // unlock/lock controls
+    controls.enabled = !controls.enabled;
   }
   else if (e.key == 'c') {
     capture.startstop(); // start/stop recording
