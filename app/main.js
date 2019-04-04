@@ -776,11 +776,11 @@ document.addEventListener('dblclick', e => {
 });
 
 document.addEventListener('keydown', e => {
-  console.log(e.key);
+  // console.log(e.key);
   
   if (e.key == ' ') {
-    console.log('space');
-    RENDERING = !RENDERING;
+    // console.log('space');
+    // RENDERING = !RENDERING;
   } else if (e.key == 'e') {
     tilesaver.save().then(
       (f) => {
