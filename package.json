@@ -17,7 +17,7 @@
   "license": "AGPL-3.0",
   "dependencies": {
     "ccapture.js": "^1.0.7",
-    "three": "^0.97.0"
+    "three": "^0.137.0"
   },
   "devDependencies": {
     "browser-sync": "^2.24.7"
